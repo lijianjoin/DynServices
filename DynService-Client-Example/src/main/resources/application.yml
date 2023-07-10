@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: immobilien-management
+
+logging:
+  level:
+    root: DEBUG
+
+remoteService:
+  services:
+    groupId: com.dynsers.dynservice
+    resourceId: register
+    resourceVersion: 0.0.1
+    context-path: remoteservice
+
+  server:
+    groupId: com.dynsers.dynservice
+    resourceId: register
+    resourceVersion: 0.0.1
+    serviceVersion: 0.0.1
+    url: http://localhost:9081/remoteservice/register/0.0.1/
+
+server:
+  port: 9080
