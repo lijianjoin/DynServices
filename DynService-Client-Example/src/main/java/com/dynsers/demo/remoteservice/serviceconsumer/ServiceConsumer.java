@@ -34,10 +34,14 @@ public class ServiceConsumer {
         DemoService d = new DemoService();
         DemoService2 e = new DemoService2();
         RemoteServiceManager.getInstance().configRemoteService(d, "test", id);
+        RemoteServiceManager.getInstance().configRemoteService(d, "test1", id);
         RemoteServiceManager.getInstance().configRemoteService(e, "test", id);
         String s = d.getTest().getSampleString();
         System.out.println(s);
-        System.out.println(e.getTest().getSampleString());
+        s = d.getTest1().getSampleString();
+        System.out.println(s);
+        s = e.getTest().getSampleString();
+        System.out.println(s);
         d.getTest().getSampleStringWithExcept();
     }
 }

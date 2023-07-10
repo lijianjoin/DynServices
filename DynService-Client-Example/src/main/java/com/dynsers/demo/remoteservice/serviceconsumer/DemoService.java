@@ -25,4 +25,7 @@ public class DemoService {
 
     @RemoteService
     private TestInterface test;
+
+    @RemoteService
+    private TestInterface test1;
 }
