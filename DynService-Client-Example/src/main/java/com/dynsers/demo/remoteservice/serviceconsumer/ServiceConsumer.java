@@ -32,10 +32,12 @@ public class ServiceConsumer {
         //id.setUuid("c8c7b30d-5f4c-4fde-ba57-6fb75be98ffd");
 
         DemoService d = new DemoService();
+        DemoService2 e = new DemoService2();
         RemoteServiceManager.getInstance().configRemoteService(d, "test", id);
+        RemoteServiceManager.getInstance().configRemoteService(e, "test", id);
         String s = d.getTest().getSampleString();
         System.out.println(s);
-
+        System.out.println(e.getTest().getSampleString());
         d.getTest().getSampleStringWithExcept();
     }
 }

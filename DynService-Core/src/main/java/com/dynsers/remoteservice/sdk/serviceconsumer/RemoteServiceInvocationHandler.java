@@ -32,16 +32,25 @@ public class RemoteServiceInvocationHandler implements InvocationHandler {
     private final RemoteServiceInvoker invoker;
     private Class<?> interfaceClz;
 
+    private static int nr = 0;
+
 
     public RemoteServiceInvocationHandler(Object ow, Class<?> inter, RemoteServiceId id) {
         owner = ow;
         interfaceClz = inter;
         serviceId = id;
         invoker = new RemoteServiceInvoker();
+        System.out.println(String.format("Handler %d is created", nr++));
+        System.out.println(ow.getClass().getSimpleName());
     }
 
     public void updateRemoteService(RemoteServiceId id) {
         this.serviceId.update(id);
+    }
+
+    public boolean hasOwnerAndRemoteSerivceId(Object ow, RemoteServiceId id) {
+        if (!Objects.equals(serviceId, id)) return false;
+        return Objects.equals(owner, ow);
     }
 
     @Override

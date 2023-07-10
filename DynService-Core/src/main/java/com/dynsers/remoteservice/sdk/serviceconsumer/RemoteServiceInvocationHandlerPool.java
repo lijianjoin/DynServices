@@ -40,15 +40,13 @@ public class RemoteServiceInvocationHandlerPool {
 
     public static RemoteServiceInvocationHandler getInvocationHandler(Object ow, RemoteServiceId serviceId) {
         synchronized (RemoteServiceInvocationHandlerPool.class) {
-            RemoteServiceInvocationHandler result = new RemoteServiceInvocationHandler(ow, null, serviceId);
+            RemoteServiceInvocationHandler result = null;
             for (RemoteServiceInvocationHandler handler : getInvocationHandlerPool()) {
-                if (handler.equals(result)) {
+                if (handler.hasOwnerAndRemoteSerivceId(ow, serviceId)) {
                     result = handler;
                     break;
                 }
             }
-            if (null == result.getInterfaceClz())
-                result = null;
             return result;
         }
     }

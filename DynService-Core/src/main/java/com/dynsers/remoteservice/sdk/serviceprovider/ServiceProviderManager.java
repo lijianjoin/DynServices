@@ -54,9 +54,7 @@ public class ServiceProviderManager {
         baseServiceId.setUri(properties.getServerUrl());
         try {
             initializerRemoteServiceRegistry();
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }
