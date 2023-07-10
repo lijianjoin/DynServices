@@ -80,27 +80,32 @@ public class RemoteServiceManager {
      * @param serviceId
      */
     public void configRemoteService(Object owner, String paramName, RemoteServiceId serviceId) throws NoSuchFieldException, IllegalAccessException {
-        if(StringUtils.isEmpty(serviceId.getUri())) {
-            RemoteServiceId requestId = remoteServiceRegister.getRemoteServiceId(serviceId);
-            serviceId.setUri(requestId.getUri());
-        }
-        RemoteServiceInvocationHandler handler = RemoteServiceInvocationHandlerPool.getInvocationHandler(owner, serviceId);
-        if(null!= handler) {
-            RemoteServiceId rsId = RemoteServiceContainer.getRemoteServiceId(owner, paramName);
-            handler.updateRemoteService(serviceId);
-            RemoteServiceContainer.storeServiceProviderId(owner, paramName, serviceId);
-        }
-        else {
-            Field field = owner.getClass().getDeclaredField(paramName);
-            if (field.isAnnotationPresent(RemoteService.class)) {
-                RemoteServiceProxy.setField(owner, field, serviceId);
+
+        Field field = owner.getClass().getDeclaredField(paramName);
+        if (field.isAnnotationPresent(RemoteService.class)) {
+            serviceId.setServiceId(field.getType().getName());
+            RemoteServiceInvocationHandler handler = RemoteServiceInvocationHandlerPool.getInvocationHandler(owner, serviceId);
+            if (StringUtils.isEmpty(serviceId.getUri())) {
+                RemoteServiceId requestId = remoteServiceRegister.getRemoteServiceId(serviceId);
+                serviceId.setUri(requestId.getUri());
+            }
+            if (null != handler) {
+                RemoteServiceId rsId = RemoteServiceContainer.getRemoteServiceId(owner, paramName);
+                if (rsId == null) {
+                    injectParameter(owner, field, paramName, serviceId);
+                }
+                handler.updateRemoteService(serviceId);
                 RemoteServiceContainer.storeServiceProviderId(owner, paramName, serviceId);
             } else {
-                throw new RSFieldIsNotRemoteServiceException(
-                        String.format("%s's Parameter: %s is Not Remote Service", owner.getClass(), paramName
-                        ));
+                injectParameter(owner, field, paramName, serviceId);
             }
         }
+    }
+
+    private void injectParameter(Object owner, Field field, String paramName, RemoteServiceId serviceId) throws IllegalAccessException, NoSuchFieldException {
+            RemoteServiceProxy.setField(owner, field, serviceId);
+            RemoteServiceContainer.storeServiceProviderId(owner, paramName, serviceId);
+
     }
 //    public void setRemoteServiceProvider(Class<?> cls, RemoteServiceId requestId) {
 
