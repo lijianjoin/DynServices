@@ -178,19 +178,25 @@ public class ServiceIdContainer {
 
     public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId) throws RSServiceNotRegisterException {
         List<RemoteServiceId> resList = new ArrayList<>();
+
         String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services = container.get(groupKey);
-        if(null == services) {
-            throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+        Map<String, Map<String, RemoteServiceId>> services;
+        synchronized (container) {
+            services = container.get(groupKey);
+            if(null == services) {
+                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            }
         }
         String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        synchronized(LOCK) {
-            Map<String, RemoteServiceId> uuidSers = services.get(serviceKey);
+        Map<String, RemoteServiceId> uuidSers;
+        synchronized (services) {
+            uuidSers = services.get(serviceKey);
             if(null == uuidSers) {
                 throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             resList.addAll(uuidSers.values());
         }
+
         return resList;
     }
 
