@@ -36,14 +36,14 @@ public class RemoteServiceInvoker {
 
     Logger logger = LoggerFactory.getLogger(RemoteServiceInvoker.class);
 
-    public Object invokeRemoteService(RemoteServiceId serviceId, Method method,
+    public Object invokeRemoteService(RemoteServiceId serviceId, String methodName,
                                       Class<?>[] parameterTypes, Object[] args) throws JsonProcessingException, Exception {
         String uri = serviceId.getUri();
         RestTemplate restTemplate = new RestTemplate();
         RSMethodRequest request = new RSMethodRequest();
         request.setServiceId(serviceId.getServiceId());
         request.setServiceVersion(serviceId.getServiceVersion());
-        request.setMethod(method.getName());
+        request.setMethod(methodName);
         request.setParameterTypes(parameterTypes);
         request.setParameterValues(args);
         logger.debug(request.toString());
@@ -69,5 +69,4 @@ public class RemoteServiceInvoker {
         }
         return resBody.getResult();
     }
-
 }

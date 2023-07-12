@@ -57,7 +57,7 @@ public class RemoteServiceInvocationHandler implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result = null;
         try {
-            result = invoker.invokeRemoteService(serviceId, method, method.getParameterTypes(), args);
+            result = invoker.invokeRemoteService(serviceId, method.getName(), method.getParameterTypes(), args);
         } catch (RSException except) {
             throw except;
         }

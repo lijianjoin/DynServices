@@ -21,6 +21,7 @@ import com.dynsers.remoteservice.sdk.data.RSMethodResponse;
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
 import com.dynsers.remoteservice.sdk.exceptions.RSException;
 import com.dynsers.remoteservice.sdk.exceptions.RSInvocationException;
+import com.dynsers.remoteservice.sdk.exceptions.RSRequestErrorException;
 import com.dynsers.remoteservice.sdk.utils.RSExceptionUtils;
 import com.dynsers.remoteservice.sdk.utils.RSRequestHelper;
 import com.dynsers.remoteservice.sdk.utils.RSResposeHelper;
@@ -49,20 +50,17 @@ public class ServiceProviderInvocationDispatcher {
 
     @RequestMapping(value = "**")
     public ResponseEntity<RSMethodResponse> invokeServiceProvider(@RequestBody RSMethodRequest body, HttpServletRequest request) throws ClassNotFoundException {
-        System.out.println(request.getRequestURI());
         Class<?> serviceProviderClass = Class.forName(body.getServiceId());
-        ResponseEntity<RSMethodResponse> res = RSRequestHelper.checkRequest(body, serviceProviderClass);
-        Method m = null;
+        ResponseEntity<RSMethodResponse> res = null;
+        Method m;
         try {
-            m = serviceProviderClass.getMethod(body.getMethod(), body.getParameterTypes());
+            m = getMethod(body, serviceProviderClass);
         }
-        catch (NoSuchMethodException noMethodExcept) {
-            if(StringUtils.equals("toString", body.getMethod())) {
-                RSMethodResponse responseBody = new RSMethodResponse();
-                responseBody.setResult(serviceProviderClass.toString());
-                res = new ResponseEntity<>(responseBody, HttpStatus.OK);
-                return res;
-            }
+        catch (RSRequestErrorException exception) {
+            return RSResposeHelper.createResponseEntityWithException(null, exception, HttpStatus.BAD_REQUEST);
+        }
+        if(null == m) {
+            return processSpecialMethod(body.getMethod(), serviceProviderClass);
         }
         Object methodResult = null;
         try {
@@ -85,4 +83,40 @@ public class ServiceProviderInvocationDispatcher {
         return res;
     }
 
+    private ResponseEntity<RSMethodResponse> processSpecialMethod(String methodName, Class<?> inter) {
+        ResponseEntity<RSMethodResponse> res = null;
+        RSMethodResponse responseBody = new RSMethodResponse();
+        switch (methodName) {
+            case ServiceProviderReserveMethods.METHOD_STATUSCHECK -> {
+                responseBody.setResult("Normal");
+            }
+            default -> {
+                responseBody.setResult(inter.getName());
+            }
+        }
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    private Method getMethod(RSMethodRequest body, Class<?> inter) throws RSRequestErrorException{
+        Method result = null;
+        if (body == null) {
+            throw new RSRequestErrorException("Error: request is null");
+        } else if (StringUtils.isEmpty(body.getMethod())) {
+            throw new RSRequestErrorException("Error: Method name is empty");
+        } else {
+            try {
+                result = inter.getMethod(body.getMethod(), body.getParameterTypes());
+            } catch (NoSuchMethodException e) {
+                if(ServiceProviderReserveMethods.isReserveMethod(body.getMethod())) {
+                    result = null;
+                }
+                else {
+                    final String paramNames = RSRequestHelper.getParamterTypesAsString(body.getParameterTypes());
+                    throw new RSRequestErrorException(
+                            String.format("Error: No such method: %s with parameters: %s", body.getMethod(), paramNames));
+                }
+            }
+        }
+        return result;
+    }
 }
