@@ -44,6 +44,9 @@ public class ServiceProviderInvocationDispatcher {
     @Autowired
     private ServiceProviderStartupListener serviceConfig;
 
+    @Autowired
+    private ServiceProviderControlMethodProcessor controlMethodProcessor;
+
     public ServiceProviderInvocationDispatcher() {
 
     }
@@ -60,7 +63,9 @@ public class ServiceProviderInvocationDispatcher {
             return RSResposeHelper.createResponseEntityWithException(null, exception, HttpStatus.BAD_REQUEST);
         }
         if(null == m) {
-            return processSpecialMethod(body.getMethod(), serviceProviderClass);
+            ResponseEntity<RSMethodResponse> response =
+                    controlMethodProcessor.processSpecialMethod(body.getMethod(), serviceProviderClass);
+            return response;
         }
         Object methodResult = null;
         try {
@@ -83,19 +88,7 @@ public class ServiceProviderInvocationDispatcher {
         return res;
     }
 
-    private ResponseEntity<RSMethodResponse> processSpecialMethod(String methodName, Class<?> inter) {
-        ResponseEntity<RSMethodResponse> res = null;
-        RSMethodResponse responseBody = new RSMethodResponse();
-        switch (methodName) {
-            case ServiceProviderReserveMethods.METHOD_STATUSCHECK -> {
-                responseBody.setResult("Normal");
-            }
-            default -> {
-                responseBody.setResult(inter.getName());
-            }
-        }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
-    }
+
 
     private Method getMethod(RSMethodRequest body, Class<?> inter) throws RSRequestErrorException{
         Method result = null;
