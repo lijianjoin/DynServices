@@ -58,6 +58,13 @@ public class RSRTransactionalService {
     }
 
     @Transactional
+    public void removeServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
+        RemoteServiceProviderEntity actual = serviceProviderRepo.findByRemoteServiceId(serviceId);
+        RegisterContainer.getServiceIdContainer().deleteServiceId(serviceId);
+        serviceProviderRepo.delete(actual);
+    }
+
+    @Transactional
     public void registerServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
 
         try {

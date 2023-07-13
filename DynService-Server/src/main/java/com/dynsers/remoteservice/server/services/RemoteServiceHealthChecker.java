@@ -18,13 +18,23 @@ package com.dynsers.remoteservice.server.services;
 
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
 import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceInvoker;
+import com.dynsers.remoteservice.sdk.utils.RemoteServiceProviderInfoUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 
 @Component
 public class RemoteServiceHealthChecker {
+
+    private static final Logger log = LoggerFactory.getLogger(RemoteServiceHealthChecker.class);
+
+    @Autowired
+    private RSRTransactionalService transactionalService;
 
     @Scheduled(fixedRate = 120000)
     public void checkStatus() throws Exception {
@@ -33,8 +43,16 @@ public class RemoteServiceHealthChecker {
         Class[] paramTypes = new Class[]{};
         Object[] paramValues = new Object[]{};
         for(RemoteServiceId ser : allServiceProviders) {
-            String status = (String) invoker.invokeRemoteService(ser, "000", paramTypes, paramValues);
-            System.out.println(status);
+            try {
+                String status = (String) invoker.invokeRemoteService(ser, "000", paramTypes, paramValues);
+                System.out.println(status);
+            }
+            catch (ResourceAccessException accessException) {
+                log.info(
+                        String.format("Remote Service: %s from provider: %s cannot be accessed, will be deleted from register server",
+                        ser.getServiceId(), RemoteServiceProviderInfoUtils.getFormattedRemoteServiceId(ser)));
+                transactionalService.removeServiceProvider(ser);
+            }
         }
     }
 
