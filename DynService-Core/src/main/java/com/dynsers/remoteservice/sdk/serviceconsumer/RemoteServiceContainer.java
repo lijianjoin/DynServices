@@ -24,6 +24,9 @@ import java.util.Map;
 
 public class RemoteServiceContainer {
 
+    /**
+     * The key is Classname and parameter name
+     */
     private static Map<String, RemoteServiceId> serviceIdContainer;
 
     public static void storeServiceProviderId(Object obj, String paramName, RemoteServiceId serviceId) {

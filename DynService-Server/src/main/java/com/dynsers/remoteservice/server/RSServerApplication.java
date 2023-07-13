@@ -19,6 +19,7 @@ package com.dynsers.remoteservice.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Hello world!
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "com.dynsers.remoteservice.server")
+@EnableScheduling
 public class RSServerApplication {
 
     public static void main(String[] args) {

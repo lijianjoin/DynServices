@@ -54,14 +54,21 @@ public class RSRTransactionalService {
     }
 
     public RemoteServiceId getRemoteServiceId(RemoteServiceId requestServiceId) throws RSServiceNotRegisterException {
-        return RegisterContainer.getServiceIdContainer().getServiceIdWithUUID(requestServiceId);
+        return RegisterContainer.getServiceIdContainer().getRemoteService(requestServiceId);
+    }
+
+    @Transactional
+    public void removeServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
+        RemoteServiceProviderEntity actual = serviceProviderRepo.findByRemoteServiceId(serviceId);
+        RegisterContainer.getServiceIdContainer().deleteServiceId(serviceId);
+        serviceProviderRepo.delete(actual);
     }
 
     @Transactional
     public void registerServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
 
         try {
-            RemoteServiceId existedId = RegisterContainer.getServiceIdContainer().getServiceIdWithUUID(serviceId);
+            RemoteServiceId existedId = RegisterContainer.getServiceIdContainer().getRemoteService(serviceId);
             if(null != existedId) {
                 throw new RSServiceAlreadyRegisterException(
                         RSServiceIdUtils.getServiceIdAsPlainString(serviceId));

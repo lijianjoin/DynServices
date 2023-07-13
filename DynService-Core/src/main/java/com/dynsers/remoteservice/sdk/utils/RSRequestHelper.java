@@ -28,28 +28,8 @@ import java.util.Arrays;
 
 public class RSRequestHelper {
 
-    public static ResponseEntity<RSMethodResponse> checkRequest(RSMethodRequest body, Class<?> inter) {
-        ResponseEntity<RSMethodResponse> result = null;
-        if (body == null) {
-            RSRequestErrorException rsNullExcept = new RSRequestErrorException("Error: request is null");
-            result = RSResposeHelper.createResponseEntityWithException(null, rsNullExcept, HttpStatus.BAD_REQUEST);
-        } else if (StringUtils.isEmpty(body.getMethod())) {
-            RSRequestErrorException rsNullExcept = new RSRequestErrorException("Error: Method name is empty");
-            result = RSResposeHelper.createResponseEntityWithException(null, rsNullExcept, HttpStatus.BAD_REQUEST);
-        } else {
-            try {
-                Method m = inter.getMethod(body.getMethod(), body.getParameterTypes());
-            } catch (NoSuchMethodException e) {
-                final String paramNames = getParamterTypesAsString(body.getParameterTypes());
-                RSRequestErrorException rsNullExcept = new RSRequestErrorException(
-                        String.format("Error: No such method: %s with parameters: %s", body.getMethod(), paramNames));
-                result = RSResposeHelper.createResponseEntityWithException(null, rsNullExcept, HttpStatus.BAD_REQUEST);
-            }
-        }
-        return result;
-    }
 
-    private static String getParamterTypesAsString(Class[] parameterTypes) {
+    public static String getParamterTypesAsString(Class[] parameterTypes) {
         StringBuilder sb = new StringBuilder();
 
         if (parameterTypes != null) {

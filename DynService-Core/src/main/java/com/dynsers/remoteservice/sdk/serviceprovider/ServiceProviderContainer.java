@@ -17,53 +17,58 @@ limitations under the License.
 package com.dynsers.remoteservice.sdk.serviceprovider;
 
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.remoteservice.sdk.data.RemoteServiceProviderInfo;
 import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
 import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotFoundException;
 import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
 import com.dynsers.remoteservice.sdk.utils.RSServiceIdUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceProviderContainer {
 
-    private static Map<String, Map<String, Map<String,Object>>> CONTAINER = null;
+    private static Map<String, Map<String, Map<String, Pair<RemoteServiceId, Object>>>> CONTAINER = null;
 
     private static final Object LOCK = new Object();
 
     public static void storeServiceProvider(final RemoteServiceId serviceId, final Object bean) throws RSServiceAlreadyRegisterException {
         String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, Object>> services = getContainer().computeIfAbsent(groupKey, k -> new HashMap<>());
+        Map<String, Map<String, Pair<RemoteServiceId, Object>>> services = getContainer().computeIfAbsent(groupKey, k -> new HashMap<>());
         String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
         synchronized(LOCK) {
-            Map<String, Object> uuidSers = services.computeIfAbsent(serviceKey, k -> new HashMap<>());
+            Map<String, Pair<RemoteServiceId, Object>> uuidSers = services.computeIfAbsent(serviceKey, k -> new HashMap<>());
             Object service = uuidSers.get(serviceId.getUuid());
             if (null != service) {
                 throw new RSServiceAlreadyRegisterException(
                         RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
-            uuidSers.put(serviceId.getUuid(), bean);
+            uuidSers.put(serviceId.getUuid(), new MutablePair<>(serviceId, bean));
         }
     }
 
     public static Object getServiceProvider(RemoteServiceId serviceId) throws RSServiceNotRegisterException {
         String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, Object>> services = getContainer().get(groupKey);
+        Map<String, Map<String, Pair<RemoteServiceId, Object>>> services = getContainer().get(groupKey);
         Object res = null;
         if(null == services) {
             throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
         }
         String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
         synchronized(LOCK) {
-            Map<String, Object> uuidSers = services.get(serviceKey);
+            Map<String, Pair<RemoteServiceId, Object>> uuidSers = services.get(serviceKey);
             if(null == uuidSers) {
                 throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             if(uuidSers.size() == 1) {
-                res = uuidSers.values().toArray()[0];
+                res = uuidSers.values().iterator().next().getValue();
             }
             else {
-                res = uuidSers.get(serviceId.getUuid());
+                res = uuidSers.get(serviceId.getUuid()).getValue();
             }
             if (null == res) {
                 throw new RSServiceNotFoundException(
@@ -73,8 +78,8 @@ public class ServiceProviderContainer {
         return res;
     }
 
-    public static Map<String, Map<String, Map<String,Object>>> getContainer() {
-        Map<String, Map<String, Map<String,Object>>> localRef = CONTAINER;
+    public static Map<String, Map<String, Map<String, Pair<RemoteServiceId, Object>>>> getContainer() {
+        Map<String, Map<String, Map<String, Pair<RemoteServiceId, Object>>>> localRef = CONTAINER;
         if (localRef == null) {
             synchronized (ServiceProviderInvocationDispatcher.class) {
                 localRef = CONTAINER;
@@ -85,5 +90,18 @@ public class ServiceProviderContainer {
         }
         return localRef;
     }
+
+    public static List<RemoteServiceId> getAllRemoteServiceId() {
+        List<RemoteServiceId> res = new ArrayList<>();
+        for(var entryGroupResource : CONTAINER.entrySet()) {
+            for (var entryService : entryGroupResource.getValue().entrySet()) {
+                for (var entryUuid : entryService.getValue().entrySet()) {
+                    res.add(entryUuid.getValue().getKey());
+                }
+            }
+        }
+        return res;
+    }
+
 
 }

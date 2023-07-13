@@ -4,8 +4,8 @@ spring:
 
 logging:
   level:
-    root: INFO
-    com.dynsers.remoteservice: DEBUG
+    root: TRACE
+    com.dynsers.remoteservice: TRACE
 
 remoteService:
   serviceProvider:

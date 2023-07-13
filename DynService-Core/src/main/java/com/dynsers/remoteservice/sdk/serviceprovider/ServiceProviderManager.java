@@ -22,6 +22,7 @@ import com.dynsers.remoteservice.sdk.configuration.RSProperties;
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
 import com.dynsers.remoteservice.sdk.enums.ServerProviderTypes;
 import com.dynsers.remoteservice.sdk.exceptions.RSException;
+import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
 import com.dynsers.remoteservice.sdk.interfaces.RemoteServiceRegister;
 import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceProxy;
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +106,15 @@ public class ServiceProviderManager {
 
     private void storeServiceProvider(final RemoteServiceId serviceId, final Object bean, ServerProviderTypes type) {
         if (ServerProviderTypes.REMOTESERVICEPROVIDER.equals(type)) {
-            remoteServiceRegister.registerServiceProvider(serviceId);
+            try {
+                remoteServiceRegister.registerServiceProvider(serviceId);
+            }
+            catch (RSServiceAlreadyRegisterException except) {
+                RemoteServiceId registeredId = remoteServiceRegister.getRemoteServiceId(serviceId);
+                if(!StringUtils.equals(registeredId.getUri(), serviceId.getUri())) {
+                    throw new RSServiceAlreadyRegisterException(String.format("Service is already registered with URI: %s", registeredId.getUri()));
+                }
+            }
         }
         ServiceProviderContainer.storeServiceProvider(serviceId, bean);
     }
