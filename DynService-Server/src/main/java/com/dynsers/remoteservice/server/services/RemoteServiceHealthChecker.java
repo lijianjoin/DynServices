@@ -16,9 +16,9 @@ limitations under the License.
 */
 package com.dynsers.remoteservice.server.services;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceInvoker;
-import com.dynsers.remoteservice.sdk.utils.RemoteServiceProviderInfoUtils;
+import com.dynsers.core.data.RemoteServiceId;
+import com.dynsers.core.serviceconsumer.RemoteServiceInvoker;
+import com.dynsers.core.utils.RemoteServiceProviderInfoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

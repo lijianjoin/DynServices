@@ -16,7 +16,7 @@ limitations under the License.
 */
 package com.dynsers.remoteservice.server.configuration;
 
-import com.dynsers.remoteservice.sdk.serviceprovider.ServiceProviderStartupListener;
+import com.dynsers.core.serviceprovider.ServiceProviderStartupListener;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

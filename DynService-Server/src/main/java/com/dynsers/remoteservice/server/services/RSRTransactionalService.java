@@ -17,10 +17,10 @@ limitations under the License.
 
 package com.dynsers.remoteservice.server.services;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
-import com.dynsers.remoteservice.sdk.utils.RSServiceIdUtils;
+import com.dynsers.core.data.RemoteServiceId;
+import com.dynsers.core.exceptions.RSServiceAlreadyRegisterException;
+import com.dynsers.core.exceptions.RSServiceNotRegisterException;
+import com.dynsers.core.utils.RSServiceIdUtils;
 import com.dynsers.remoteservice.server.repository.RSRServiceProviderRepo;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
 import com.dynsers.remoteservice.server.data.mapper.RemoteServiceProviderMapper;

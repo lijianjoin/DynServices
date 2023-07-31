@@ -16,6 +16,7 @@
         <module>DynService-Client-Example</module>
         <module>DynService-ServiceProvider-DemoAPI</module>
         <module>DynService-Client-Spring-Example</module>
+        <module>DynService-Webflux</module>
     </modules>
 
     <properties>

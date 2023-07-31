@@ -16,8 +16,8 @@ limitations under the License.
 */
 package com.dynsers.demo.remoteservice.serviceconsumer;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceManager;
+import com.dynsers.core.data.RemoteServiceId;
+import com.dynsers.core.serviceconsumer.RemoteServiceManager;
 
 public class ServiceConsumer {
 

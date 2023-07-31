@@ -1,7 +1,7 @@
 package com.dynsers.demo.remoteservice.spring.services;
 
 import com.dynsers.demo.dynservice.demoapi.api.TestInterface;
-import com.dynsers.remoteservice.sdk.annotations.RemoteService;
+import com.dynsers.core.annotations.RemoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

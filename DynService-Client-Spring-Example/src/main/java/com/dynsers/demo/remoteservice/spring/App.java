@@ -2,8 +2,8 @@ package com.dynsers.demo.remoteservice.spring;
 
 
 import com.dynsers.demo.remoteservice.spring.services.TestService;
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceManager;
+import com.dynsers.core.data.RemoteServiceId;
+import com.dynsers.core.serviceconsumer.RemoteServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
