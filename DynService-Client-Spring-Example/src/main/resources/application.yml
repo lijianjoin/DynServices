@@ -4,14 +4,17 @@ spring:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
+    com.dynsers.remoteservice: DEBUG
+    com.dynsers.demo: DEBUG
 
 remoteService:
   services:
     groupId: com.dynsers.dynservice
-    resourceId: register
+    resourceId: testService
     resourceVersion: 0.0.1
-    context-path: remoteservice
+    serviceVersion: 0.0.1
+    uuid: c8c7b30d-5f4c-4fde-ba57-6fb75be98ff
 
   server:
     groupId: com.dynsers.dynservice
@@ -19,6 +22,14 @@ remoteService:
     resourceVersion: 0.0.1
     serviceVersion: 0.0.1
     url: http://localhost:9081/remoteservice/register/0.0.1/
+
+
+  serviceProvider:
+    groupId: com.dynsers.dynservice
+    resourceId: demo-consumer
+    resourceVersion: 0.0.1
+    context-path: consumer
+    hostname: localhost
 
 
 server:

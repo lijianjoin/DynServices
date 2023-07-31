@@ -28,6 +28,7 @@ import com.dynsers.remoteservice.sdk.utils.RSResposeHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,8 @@ import java.lang.reflect.Method;
 @RequestMapping("/${remoteService.serviceProvider.context-path}/${remoteService.serviceProvider.resourceId}/${remoteService.serviceProvider.resourceVersion}/")
 public class ServiceProviderInvocationDispatcher {
 
-    @Autowired
+    @Autowired()
+    @Qualifier("serviceProviderStartupListener")
     private ServiceProviderStartupListener serviceConfig;
 
     @Autowired

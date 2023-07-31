@@ -105,7 +105,6 @@ public class RemoteServiceManager {
     private void injectParameter(Object owner, Field field, String paramName, RemoteServiceId serviceId) throws IllegalAccessException, NoSuchFieldException {
             RemoteServiceProxy.setField(owner, field, serviceId);
             RemoteServiceContainer.storeServiceProviderId(owner, paramName, serviceId);
-
     }
 //    public void setRemoteServiceProvider(Class<?> cls, RemoteServiceId requestId) {
 

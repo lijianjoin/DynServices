@@ -7,10 +7,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>DynService-Client-Example</artifactId>
+    <artifactId>DynService-Client-Spring-Example</artifactId>
     <packaging>jar</packaging>
 
-    <name>DynService-Client-Example</name>
+    <name>DynService-Client-Spring-Example</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,17 +20,22 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.dynsers.DynService</groupId>
             <artifactId>DynService-Core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.dynsers.DynService</groupId>
             <artifactId>DynService-ServiceProvider-DemoAPI</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

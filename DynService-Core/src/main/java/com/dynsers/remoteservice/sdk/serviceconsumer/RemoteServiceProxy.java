@@ -29,9 +29,6 @@ import java.util.stream.Stream;
 
 public class RemoteServiceProxy {
 
-
-
-
     @SuppressWarnings("unchecked")
     public static <T> T simpleProxy(Class<? extends T> iface, InvocationHandler handler, Class<?>...otherIfaces) {
         Class<?>[] allInterfaces = Stream.concat(

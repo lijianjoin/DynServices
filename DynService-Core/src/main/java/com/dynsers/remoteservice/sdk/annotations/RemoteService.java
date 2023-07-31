@@ -31,5 +31,6 @@ public @interface RemoteService {
     String resourceVersion() default "";
     String serviceId() default "";
     String serviceVersion() default "";
+    String uuid() default "";
     String url() default "";
 }

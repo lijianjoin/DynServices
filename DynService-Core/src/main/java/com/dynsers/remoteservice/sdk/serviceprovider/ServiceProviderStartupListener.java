@@ -29,19 +29,21 @@ import org.springframework.context.annotation.Configuration;
  * Author: Jian Li
  * RSSContextListener: RemoteServiceServerContextListener
  */
-@Configuration
+@Configuration("serviceProviderStartupListener")
 @ComponentScan("com.dynsers.remoteservice.sdk")
 public class ServiceProviderStartupListener implements ApplicationListener<ApplicationReadyEvent> {
 
+    public static boolean initialized = false;
 
     @Autowired
     private ServletWebServerApplicationContext webServerAppCtxt;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        RSProperties.getInstance().setServiceProviderPort(webServerAppCtxt.getWebServer().getPort());
-        ServiceProviderManager.getInstance().scanAndRegisterServiceProviders(applicationReadyEvent.getApplicationContext());
+        if(!initialized) {
+            RSProperties.getInstance().setServiceProviderPort(webServerAppCtxt.getWebServer().getPort());
+            ServiceProviderManager.getInstance().scanAndRegisterServiceProviders(applicationReadyEvent.getApplicationContext());
+            initialized = true;
+        }
     }
-
-
 }

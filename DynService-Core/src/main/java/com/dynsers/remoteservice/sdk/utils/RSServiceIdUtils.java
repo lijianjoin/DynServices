@@ -30,6 +30,7 @@ public class RSServiceIdUtils {
         id.setServiceVersion(RSPropertyResolver.getPropertyValue(annotation.serviceVersion()));
         id.setServiceId(RSPropertyResolver.getPropertyValue(annotation.serviceId()));
         id.setUri(RSPropertyResolver.getPropertyValue(annotation.url()));
+        id.setUuid(RSPropertyResolver.getPropertyValue(annotation.uuid()));
         return id;
     }
 

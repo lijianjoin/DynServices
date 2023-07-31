@@ -15,6 +15,7 @@
         <module>DynService-ServiceProvider-Demo</module>
         <module>DynService-Client-Example</module>
         <module>DynService-ServiceProvider-DemoAPI</module>
+        <module>DynService-Client-Spring-Example</module>
     </modules>
 
     <properties>
