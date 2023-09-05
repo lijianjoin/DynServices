@@ -56,4 +56,7 @@ public class RemoteServiceHealthChecker {
         }
     }
 
+    // write here a oberserver pattern to check the health of the remote service
+
+
 }
