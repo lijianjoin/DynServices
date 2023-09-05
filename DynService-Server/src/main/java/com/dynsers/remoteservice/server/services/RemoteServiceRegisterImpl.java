@@ -17,12 +17,12 @@ limitations under the License.
 
 package com.dynsers.remoteservice.server.services;
 
-import com.dynsers.remoteservice.sdk.annotations.ServiceProvider;
-import com.dynsers.remoteservice.sdk.enums.ServerProviderTypes;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
-import com.dynsers.remoteservice.sdk.interfaces.RemoteServiceRegister;
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
+import com.dynsers.core.annotations.ServiceProvider;
+import com.dynsers.core.enums.ServerProviderTypes;
+import com.dynsers.core.exceptions.RSServiceNotRegisterException;
+import com.dynsers.core.interfaces.RemoteServiceRegister;
+import com.dynsers.core.data.RemoteServiceId;
+import com.dynsers.core.exceptions.RSServiceAlreadyRegisterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

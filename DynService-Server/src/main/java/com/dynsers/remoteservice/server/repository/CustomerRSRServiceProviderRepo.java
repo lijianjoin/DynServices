@@ -16,7 +16,7 @@ limitations under the License.
 */
 package com.dynsers.remoteservice.server.repository;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.core.data.RemoteServiceId;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
 
 public interface CustomerRSRServiceProviderRepo {

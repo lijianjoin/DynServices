@@ -18,7 +18,7 @@ package com.dynsers.demo.remoteservice.serviceprovider.testservice;
 
 import com.dynsers.demo.dynservice.demoapi.api.TestInterface;
 import com.dynsers.demo.dynservice.demoapi.api.UnknowParameterException;
-import com.dynsers.remoteservice.sdk.annotations.ServiceProvider;
+import com.dynsers.core.annotations.ServiceProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

@@ -18,7 +18,7 @@ limitations under the License.
 package com.dynsers.remoteservice.server.data.mapper;
 
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.core.data.RemoteServiceId;
 
 public class RemoteServiceProviderMapper {
 
