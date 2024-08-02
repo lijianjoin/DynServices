@@ -3,22 +3,22 @@ package com.dynsers.remoteservice.sdk.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.dynsers.remoteservice.sdk.data.RSMethodRequest;
+import com.dynsers.remoteservice.sdk.data.RemoteServiceMethodRequest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TestRequestParameterTypeSerializer {
+class TestRequestParameterTypeSerializer {
 
 
     @Test
-    public void testSerializeTypeNotFound() throws JsonProcessingException {
+    void testSerializeTypeNotFound() throws JsonProcessingException {
 
 
-        RSMethodRequest request = new RSMethodRequest();
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
-        Class<?>[]  clss = new Class<?>[1];
+        Class<?>[] clss = new Class<?>[1];
         clss[0] = Integer.class;
         request.setParameterTypes(clss);
         ObjectMapper mapper = new ObjectMapper();
@@ -30,54 +30,50 @@ public class TestRequestParameterTypeSerializer {
 
         try {
             mapper
-                    .readerFor(RSMethodRequest.class)
+                    .readerFor(RemoteServiceMethodRequest.class)
                     .readValue(jsString);
-        }
-        catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             assertEquals(JsonMappingException.class, e.getClass());
         }
 
     }
 
     @Test
-    public void testSerializeEmptyTypes() throws JsonProcessingException {
+    void testSerializeEmptyTypes() throws JsonProcessingException {
 
-        RSMethodRequest request = new RSMethodRequest();
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
 
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
-        assertEquals(null, rs.getParameterTypes());
+        assertNull(rs.getParameterTypes());
     }
 
 
     @Test
-    public void testSerializeJson() throws JsonProcessingException {
+    void testSerializeJson() throws JsonProcessingException {
 
-        RSMethodRequest request = new RSMethodRequest();
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
-        Class<?>[]  clss = new Class<?>[3];
-        clss[0] = Integer.class;
-        clss[1] = String.class;
-        clss[2] = Double.class;
+        Class<?>[] clss = {Integer.class, String.class, double.class, int.class, long.class, float.class,
+                boolean.class, char.class, byte.class, short.class, void.class};
         request.setParameterTypes(clss);
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
 
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
-        assertEquals(3, rs.getParameterTypes().length);
-        assertEquals(Integer.class, rs.getParameterTypes()[0]);
-        assertEquals(String.class, rs.getParameterTypes()[1]);
-        assertEquals(Double.class, rs.getParameterTypes()[2]);
+        assertEquals(clss.length, rs.getParameterTypes().length);
+        for (int i = 0; i < clss.length; i++) {
+            assertEquals(clss[i], rs.getParameterTypes()[i]);
+        }
     }
-
 }

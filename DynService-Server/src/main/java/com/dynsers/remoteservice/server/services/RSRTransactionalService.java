@@ -1,96 +1,82 @@
 /*
 
-Copyright Jian Li, lijianjoin@gmail.com,
+ * Author: Jian Li, jian.li1@sartorius.com
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
+ */
 package com.dynsers.remoteservice.server.services;
 
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
-import com.dynsers.remoteservice.sdk.utils.RSServiceIdUtils;
-import com.dynsers.remoteservice.server.repository.RSRServiceProviderRepo;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceAlreadyRegisterException;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceNotRegisterException;
+import com.dynsers.remoteservice.sdk.utils.RemoteServiceServiceIdUtils;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
 import com.dynsers.remoteservice.server.data.mapper.RemoteServiceProviderMapper;
+import com.dynsers.remoteservice.server.repository.RSRServiceProviderRepo;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.NoResultException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class RSRTransactionalService {
+    private final RSRServiceProviderRepo serviceProviderRepo;
 
-    Logger logger = LoggerFactory.getLogger(RSRTransactionalService.class);
+    private final RemoteServiceProviderMapper mapper = Mappers.getMapper( RemoteServiceProviderMapper.class );
 
-    @Autowired
-    RSRServiceProviderRepo serviceProviderRepo;
-
+    public RSRTransactionalService(RSRServiceProviderRepo serviceProviderRepo) {
+        this.serviceProviderRepo = serviceProviderRepo;
+    }
 
     @PostConstruct
     public void initRemoteServiceProvider() {
         List<RemoteServiceProviderEntity> providers = serviceProviderRepo.findAll();
         providers.forEach(ent -> {
-            RemoteServiceId rmsId = RemoteServiceProviderMapper.toDTO(ent);
+            RemoteServiceId rmsId = mapper.toDto(ent);
             RegisterContainer.getServiceIdContainer().storeServiceId(rmsId);
         });
     }
 
-    public RemoteServiceId getRemoteServiceId(RemoteServiceId requestServiceId) throws RSServiceNotRegisterException {
+    public RemoteServiceId getRemoteServiceId(RemoteServiceId requestServiceId) throws RemoteServiceServiceNotRegisterException {
         return RegisterContainer.getServiceIdContainer().getRemoteService(requestServiceId);
     }
 
     @Transactional
-    public void removeServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
+    public void removeServiceProvider(RemoteServiceId serviceId) throws RemoteServiceServiceAlreadyRegisterException {
         RemoteServiceProviderEntity actual = serviceProviderRepo.findByRemoteServiceId(serviceId);
         RegisterContainer.getServiceIdContainer().deleteServiceId(serviceId);
         serviceProviderRepo.delete(actual);
     }
 
     @Transactional
-    public void registerServiceProvider(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
+    public void registerServiceProvider(RemoteServiceId serviceId) throws RemoteServiceServiceAlreadyRegisterException {
 
         try {
             RemoteServiceId existedId = RegisterContainer.getServiceIdContainer().getRemoteService(serviceId);
-            if(null != existedId) {
-                throw new RSServiceAlreadyRegisterException(
-                        RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            if (null != existedId) {
+                throw new RemoteServiceServiceAlreadyRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
-        } catch (RSServiceNotRegisterException e) {
-            logger.debug("No Service Provider found, continue to register");
+        } catch (RemoteServiceServiceNotRegisterException e) {
+            log.debug("No Service Provider found, continue to register");
         }
-
-        RemoteServiceProviderEntity entity = RemoteServiceProviderMapper.toEntity(serviceId);
-        Example<RemoteServiceProviderEntity> example = Example.of(entity);
+        RemoteServiceProviderEntity entity = mapper.toEntity(serviceId);
         RemoteServiceProviderEntity actual = null;
         try {
             actual = serviceProviderRepo.findByRemoteServiceId(serviceId);
         } catch (NoResultException e) {
-            e.printStackTrace();
+            log.debug("No result " + e.getMessage());
         }
         if (actual == null) {
             RegisterContainer.getServiceIdContainer().storeServiceId(serviceId);
             serviceProviderRepo.save(entity);
         } else {
-            throw new RSServiceAlreadyRegisterException(
-                    RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            throw new RemoteServiceServiceAlreadyRegisterException(
+                    RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
         }
     }
 }

@@ -1,23 +1,11 @@
 /*
 
-Copyright Jian Li, lijianjoin@gmail.com,
+ * Author: Jian Li, jian.li1@sartorius.com
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
+ */
 package com.dynsers.remoteservice.sdk.annotations;
 
-import com.dynsers.remoteservice.sdk.enums.ServerProviderTypes;
+import com.dynsers.remoteservice.sdk.enums.ServiceProviderTypes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,11 +16,18 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ServiceProvider {
 
-    String name() default "";
+    String id() default "";
+
+    String serviceName();
+
     String version();
+
     String subURI() default "";
 
     String uuid() default "";
 
-    ServerProviderTypes type() default ServerProviderTypes.REMOTESERVICEPROVIDER;
+    int detectionInterval() default 10;
+
+    ServiceProviderTypes type() default ServiceProviderTypes.REMOTESERVICEPROVIDER;
+
 }

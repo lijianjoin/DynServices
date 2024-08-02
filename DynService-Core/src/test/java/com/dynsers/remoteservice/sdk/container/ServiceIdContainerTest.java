@@ -1,60 +1,72 @@
 package com.dynsers.remoteservice.sdk.container;
 
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotFoundException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
-import com.dynsers.remoteservice.sdk.utils.RSServiceIdUtils;
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceAlreadyRegisterException;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceNotRegisterException;
+import com.dynsers.remoteservice.sdk.utils.RemoteServiceServiceIdUtils;
+import org.awaitility.Awaitility;
+import org.awaitility.Durations;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ServiceIdContainerTest {
+class ServiceIdContainerTest {
 
-
-
-    @Test
-    public void testStoreServiceIdWithAlreadyRegisterException() {
-        ServiceIdContainer container = new ServiceIdContainer();
+    private RemoteServiceId getTestServiceId() {
         String uuid = String.valueOf(UUID.randomUUID());
         RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
+        serviceId
+                .setGroupId("com.sartorius.dynservice")
+                .setResourceId("demo")
+                .setResourceVersion("0.0.1")
+                .setServiceId("com.sartorius.dynservice.demo.service.TestService")
+                .setServiceVersion("0.0.1")
+                .setServiceName("testService")
+                .setUri("localhost:8888/demo")
+                .setUuid(uuid);
+        return serviceId;
+    }
 
-        container.storeServiceId(serviceId);
+    private RemoteServiceId getTestServiceRequestId() {
 
-        Exception exception = assertThrows(RSServiceAlreadyRegisterException.class, () -> {
-            container.storeServiceId(serviceId);
-        });
-        String excepMsg = RSServiceIdUtils.getServiceIdAsPlainString(serviceId);
-        assertEquals(excepMsg, exception.getMessage());
-
+        RemoteServiceId serviceIdRequest = new RemoteServiceId();
+        serviceIdRequest.setGroupId("com.sartorius.dynservice");
+        serviceIdRequest.setResourceId("demo1");
+        serviceIdRequest.setResourceVersion("0.0.1");
+        serviceIdRequest.setServiceId("com.sartorius.dynservice.demo.service.TestService");
+        serviceIdRequest.setServiceVersion("0.0.1");
+        serviceIdRequest.setServiceName("testService");
+        serviceIdRequest.setUuid("uuid");
+        return serviceIdRequest;
     }
 
     @Test
-    public void testStoreServiceId() {
+    void testStoreServiceIdWithAlreadyRegisterException() {
         ServiceIdContainer container = new ServiceIdContainer();
         String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
+        RemoteServiceId serviceId = getTestServiceId();
+
+        container.storeServiceId(serviceId);
+
+        Exception exception = assertThrows(RemoteServiceServiceAlreadyRegisterException.class, () -> {
+            container.storeServiceId(serviceId);
+        });
+        String excepMsg = RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId);
+        assertEquals(excepMsg, exception.getMessage());
+    }
+
+    @Test
+    void testStoreServiceId() {
+        ServiceIdContainer container = new ServiceIdContainer();
+        String uuid = String.valueOf(UUID.randomUUID());
+        RemoteServiceId serviceId = getTestServiceId();
 
         container.storeServiceId(serviceId);
 
@@ -63,132 +75,81 @@ public class ServiceIdContainerTest {
     }
 
     @Test
-    public void testDeleteServiceId() {
+    void testDeleteServiceId() {
         ServiceIdContainer container = new ServiceIdContainer();
-        String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
-
+        RemoteServiceId serviceId = getTestServiceId();
         container.storeServiceId(serviceId);
 
-        uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceIdRequest = new RemoteServiceId();
-        serviceIdRequest.setGroupId("com.dynsers.dynservicessss");
-        serviceIdRequest.setResourceId("demo");
-        serviceIdRequest.setResourceVersion("0.0.1");
-        serviceIdRequest.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceIdRequest.setServiceVersion("0.0.1");
+        String uuid = String.valueOf(UUID.randomUUID());
+        RemoteServiceId serviceIdRequest = getTestServiceRequestId();
         serviceIdRequest.setUuid(uuid);
 
         container.storeServiceId(serviceIdRequest);
 
         container.deleteServiceId(serviceId);
 
-        Exception exception = assertThrows(RSServiceNotRegisterException.class, () -> {
+        Exception exception = assertThrows(RemoteServiceServiceNotRegisterException.class, () -> {
             container.getRemoteService(serviceId);
         });
-        String excepMsg = RSServiceIdUtils.getServiceIdAsPlainString(serviceId);
+        String excepMsg = RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId);
         assertEquals(excepMsg, exception.getMessage());
     }
 
     @Test
-    public void testGetIdWithWrongGroupNotRegisterException() {
+    void testGetIdWithWrongGroupNotRegisterException() {
         ServiceIdContainer container = new ServiceIdContainer();
         String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
+        RemoteServiceId serviceId = getTestServiceId();
         serviceId.setUuid(uuid);
 
         container.storeServiceId(serviceId);
 
-        RemoteServiceId serviceIdRequest = new RemoteServiceId();
-        serviceIdRequest.setGroupId("com.dynsers.dynservicessss");
-        serviceIdRequest.setResourceId("demo");
-        serviceIdRequest.setResourceVersion("0.0.1");
-        serviceIdRequest.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceIdRequest.setServiceVersion("0.0.1");
-        serviceIdRequest.setUuid(uuid);
+        RemoteServiceId serviceIdRequest = getTestServiceRequestId();
 
-        Exception exception = assertThrows(RSServiceNotRegisterException.class, () -> {
+        Exception exception = assertThrows(RemoteServiceServiceNotRegisterException.class, () -> {
             container.getRemoteService(serviceIdRequest);
         });
-        String excepMsg = RSServiceIdUtils.getServiceIdAsPlainString(serviceIdRequest);
+        String excepMsg = RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceIdRequest);
         assertEquals(excepMsg, exception.getMessage());
     }
 
     @Test
-    public void testGetIdWithWrongServiceNotRegisterException() {
+    void testGetIdWithWrongServiceNotRegisterException() {
         ServiceIdContainer container = new ServiceIdContainer();
         String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
+        RemoteServiceId serviceId = getTestServiceId();
         serviceId.setUuid(uuid);
 
         container.storeServiceId(serviceId);
 
-        RemoteServiceId serviceIdRequest = new RemoteServiceId();
-        serviceIdRequest.setGroupId("com.dynsers.dynservice");
-        serviceIdRequest.setResourceId("demo");
-        serviceIdRequest.setResourceVersion("0.0.1");
-        serviceIdRequest.setServiceId("com.dynsers.dynservice.demo.service.TestServiceddd");
-        serviceIdRequest.setServiceVersion("0.0.1");
-        serviceIdRequest.setUuid(uuid);
+        RemoteServiceId serviceIdRequest = getTestServiceRequestId();
+        serviceIdRequest.setServiceId("com.sartorius.dynservice.demo.service.TestServiceddd");
 
-        Exception exception = assertThrows(RSServiceNotRegisterException.class, () -> {
+        Exception exception = assertThrows(RemoteServiceServiceNotRegisterException.class, () -> {
             container.getRemoteService(serviceIdRequest);
         });
-        String excepMsg = RSServiceIdUtils.getServiceIdAsPlainString(serviceIdRequest);
+        String excepMsg = RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceIdRequest);
         assertEquals(excepMsg, exception.getMessage());
     }
 
     @Test
-    public void testGetIdWithWrongUUIDNotRegisterException() {
+    void testGetIdWithWrongUUIDStillGetService() {
         ServiceIdContainer container = new ServiceIdContainer();
-        String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
+        RemoteServiceId serviceId = getTestServiceId();
 
         container.storeServiceId(serviceId);
 
-        RemoteServiceId serviceIdRequest = new RemoteServiceId();
-        serviceIdRequest.setGroupId("com.dynsers.dynservice");
-        serviceIdRequest.setResourceId("demo");
-        serviceIdRequest.setResourceVersion("0.0.1");
-        serviceIdRequest.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceIdRequest.setServiceVersion("0.0.1");
+        RemoteServiceId serviceIdRequest = getTestServiceRequestId();
+
         serviceIdRequest.setUuid("uuid");
+        serviceIdRequest.setResourceId("demo");
+        RemoteServiceId rsId = container.getRemoteService(serviceIdRequest);
 
-        Exception exception = assertThrows(RSServiceNotRegisterException.class, () -> {
-            container.getRemoteService(serviceIdRequest);
-        });
-        String excepMsg = RSServiceIdUtils.getServiceIdAsPlainString(serviceIdRequest);
-        assertEquals(excepMsg, exception.getMessage());
+        assertNotNull(rsId);
     }
 
     @Test
-    public void testLockByContainer() throws NoSuchFieldException, IllegalAccessException {
+    void testLockByContainer() throws NoSuchFieldException, IllegalAccessException {
         ServiceIdContainer container = new ServiceIdContainer();
         int number = 0;
         Field internalContainer = container.getClass().getDeclaredField("container");
@@ -201,14 +162,7 @@ public class ServiceIdContainerTest {
             public void run() {
                 startTime[0] = System.currentTimeMillis();
                 String uuid = String.valueOf(UUID.randomUUID());
-                RemoteServiceId serviceId = new RemoteServiceId();
-                serviceId.setGroupId("com.dynsers.dynservice");
-                serviceId.setResourceId("demo");
-                serviceId.setResourceVersion("0.0.1");
-                serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-                serviceId.setServiceVersion("0.0.1");
-                serviceId.setUri("localhost:8888/demo");
-                serviceId.setUuid(uuid);
+                RemoteServiceId serviceId = getTestServiceId();
                 container.storeServiceId(serviceId);
                 endTime[0] = System.currentTimeMillis();
             }
@@ -218,49 +172,39 @@ public class ServiceIdContainerTest {
             @Override
             public void run() {
                 synchronized (lock) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Awaitility.await().pollDelay(Durations.TWO_SECONDS).until(() -> true);
                 }
             }
         };
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.execute(lockT);
-        executor.execute(t1);
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-            // empty body
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
+            executor.execute(lockT);
+            executor.execute(t1);
+            executor.shutdown();
+            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                throw new RuntimeException("timeout exceeded waiting for executor shutdown.");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         long executeTime = endTime[0] - startTime[0];
         assertTrue(executeTime > 1000);
     }
 
     @Test
-    public void testLockByResourceContainer() throws NoSuchFieldException, IllegalAccessException {
+    void testLockByResourceContainer() throws NoSuchFieldException, IllegalAccessException {
         ServiceIdContainer container = new ServiceIdContainer();
         int number = 0;
         Field internalContainerField = container.getClass().getDeclaredField("container");
         ReflectionUtils.makeAccessible(internalContainerField);
         final long[] startTime = {0};
         final long[] endTime = {0};
-        Map<String, Map<String, Map<String, RemoteServiceId>>> internalContainer =
-                (Map<String, Map<String, Map<String, RemoteServiceId>>>)internalContainerField.get(container);
-        String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
+        GroupServiceContainer internalContainer = (GroupServiceContainer) internalContainerField.get(container);
+        RemoteServiceId serviceId = getTestServiceId();
         container.storeServiceId(serviceId);
 
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService2");
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Object lock = internalContainer.get(groupKey);
+        serviceId.setServiceId("com.sartorius.dynservice.demo.service.TestService2");
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        Object lock = internalContainer.getResourceServices(groupKey);
         Runnable t1 = new Runnable() {
             @Override
             public void run() {
@@ -274,77 +218,58 @@ public class ServiceIdContainerTest {
             @Override
             public void run() {
                 synchronized (lock) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    Awaitility.await().pollDelay(Durations.TWO_SECONDS).until(() -> true);
                 }
             }
         };
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.execute(lockT);
-        executor.execute(t1);
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-            // empty body
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
+            executor.execute(lockT);
+            executor.execute(t1);
+            executor.shutdown();
+            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                throw new RuntimeException("timeout exceeded waiting for executor shutdown.");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         long executeTime = endTime[0] - startTime[0];
         assertTrue(executeTime > 1000);
     }
 
     @Test
-    public void testLockByServiceIdContainer() throws NoSuchFieldException, IllegalAccessException {
+    void testLockByServiceIdContainer() throws NoSuchFieldException, IllegalAccessException {
         ServiceIdContainer container = new ServiceIdContainer();
         int number = 0;
         Field internalContainerField = container.getClass().getDeclaredField("container");
         ReflectionUtils.makeAccessible(internalContainerField);
         final long[] startTime = {0};
         final long[] endTime = {0};
-        Map<String, Map<String, Map<String, RemoteServiceId>>> internalContainer =
-                (Map<String, Map<String, Map<String, RemoteServiceId>>>)internalContainerField.get(container);
-        String uuid = String.valueOf(UUID.randomUUID());
-        RemoteServiceId serviceId = new RemoteServiceId();
-        serviceId.setGroupId("com.dynsers.dynservice");
-        serviceId.setResourceId("demo");
-        serviceId.setResourceVersion("0.0.1");
-        serviceId.setServiceId("com.dynsers.dynservice.demo.service.TestService");
-        serviceId.setServiceVersion("0.0.1");
-        serviceId.setUri("localhost:8888/demo");
-        serviceId.setUuid(uuid);
+        GroupServiceContainer internalContainer = (GroupServiceContainer) internalContainerField.get(container);
+        RemoteServiceId serviceId = getTestServiceId();
         container.storeServiceId(serviceId);
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> resourceContainer = internalContainer.get(groupKey);
-        Map<String, RemoteServiceId> lock = resourceContainer.get(RSServiceIdUtils.getServiceKey(serviceId));
-
+        ResourceServiceContainer resourceContainer = internalContainer.getResourceServices(serviceId);
+        ServiceNameContainer lock = resourceContainer.getServices(serviceId);
         serviceId.setUuid(String.valueOf(UUID.randomUUID()));
-        Runnable t1 = new Runnable() {
-            @Override
-            public void run() {
-                startTime[0] = System.currentTimeMillis();
-                container.storeServiceId(serviceId);
-                endTime[0] = System.currentTimeMillis();
-            }
+        Runnable t1 = () -> {
+            startTime[0] = System.currentTimeMillis();
+            container.storeServiceId(serviceId);
+            endTime[0] = System.currentTimeMillis();
         };
 
-        Runnable lockT = new Runnable() {
-            @Override
-            public void run() {
-                synchronized (lock) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+        Runnable lockT = () -> {
+            synchronized (lock) {
+                Awaitility.await().pollDelay(Durations.TWO_SECONDS).until(() -> true);
             }
         };
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.execute(lockT);
-        executor.execute(t1);
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-            // empty body
+        try (ExecutorService executor = Executors.newFixedThreadPool(2)) {
+            executor.execute(lockT);
+            executor.execute(t1);
+            executor.shutdown();
+            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                throw new RuntimeException("timeout exceeded waiting for executor shutdown.");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
         long executeTime = endTime[0] - startTime[0];
         assertTrue(executeTime > 1000);

@@ -19,6 +19,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.dynsers.DynService</groupId>
             <artifactId>DynService-Core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -58,17 +64,41 @@
             <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
 
     </dependencies>
 
     <build>
-
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+                <configuration>
+                    <mainClass>com.sartorius.ismart2.serviceregister.ServiceRegisterApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <!-- skip when using `mvn install` -->
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>4.23.0</version>
+                <version>${liquibase.version}</version>
                 <configuration>
                     <propertyFile>db/liquibase.properties</propertyFile>
                 </configuration>

@@ -1,204 +1,186 @@
 /*
 
-Copyright Jian Li, lijianjoin@gmail.com,
+ * Author: Jian Li, jian.li1@sartorius.com
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
+ */
 package com.dynsers.remoteservice.sdk.container;
 
 import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceAlreadyRegisterException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotFoundException;
-import com.dynsers.remoteservice.sdk.exceptions.RSServiceNotRegisterException;
-import com.dynsers.remoteservice.sdk.utils.RSServiceIdUtils;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceAlreadyRegisterException;
+import com.dynsers.remoteservice.sdk.exceptions.RemoteServiceServiceNotRegisterException;
+import com.dynsers.remoteservice.sdk.utils.RemoteServiceServiceIdUtils;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
+@NoArgsConstructor
 public class ServiceIdContainer {
 
-    private final Map<String, Map<String, Map<String, RemoteServiceId>>> container = new HashMap<>();
-
-    private static final Object LOCK = new Object();
-
-    public ServiceIdContainer() {
-    }
+    private final GroupServiceContainer  container = new GroupServiceContainer();
 
     public List<RemoteServiceId> getAllServiceId() {
         List<RemoteServiceId> result = new ArrayList<>();
-        List<Map<String, Map<String, RemoteServiceId>>> groupServices = container.values().stream().toList();
-        List<Map<String, RemoteServiceId>> services = new ArrayList<>();
-        groupServices.forEach(k -> services.addAll(k.values()));
-        services.forEach(s -> result.addAll(s.values()));
+        List<ResourceServiceContainer> groupServices =
+                container.getResourceServiceContainer().values().stream().toList();
+        List<ServiceNameContainer> services = new ArrayList<>();
+        groupServices.forEach(k -> services.addAll(k.getServiceContainer().values()));
+        services.forEach(s -> result.addAll(s.getUuidSericeContainer().values()));
         return result;
     }
 
     public RemoteServiceId deleteServiceId(RemoteServiceId serviceId) {
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServiceContainer;
         RemoteServiceId result = null;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
+            resourceServiceContainer = container.getResourceServices(groupKey);
+            if(null == resourceServiceContainer) {
                 return null;
             }
         }
-        String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        Map<String, RemoteServiceId> uuidSers;
-        synchronized (services) {
-            uuidSers = services.get(serviceKey);
-            if(null == uuidSers) {
+        String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
+        ServiceNameContainer uuidServiceContainer;
+        synchronized (resourceServiceContainer) {
+            uuidServiceContainer = resourceServiceContainer.getServices(serviceKey);
+            if(null == uuidServiceContainer) {
                 return null;
             }
         }
-        synchronized (uuidSers) {
-            result = uuidSers.remove(serviceId.getUuid());
-
+        synchronized (uuidServiceContainer) {
+            result = uuidServiceContainer.removeServiceId(serviceId.getUuid());
         }
-
         return result;
     }
 
-    public void storeServiceId(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+    public void storeServiceId(RemoteServiceId serviceId) throws RemoteServiceServiceAlreadyRegisterException {
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServices;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
-                services = new HashMap<>();
+            resourceServices = container.getResourceServices(groupKey);
+            if(null == resourceServices) {
+                resourceServices = new ResourceServiceContainer();
             }
-            container.put(groupKey, services);
+            container.putResourceServices(groupKey, resourceServices);
         }
-        String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        Map<String, RemoteServiceId> uuidSers;
-        synchronized (services) {
-            uuidSers = services.get(serviceKey);
+        String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
+        ServiceNameContainer uuidSers;
+        synchronized (resourceServices) {
+            uuidSers = resourceServices.getServices(serviceKey);
             if(null == uuidSers) {
-                uuidSers = new HashMap<>();
+                uuidSers = new ServiceNameContainer();
             }
-            services.put(serviceKey, uuidSers);
+            resourceServices.putServices(serviceKey, uuidSers);
         }
         synchronized (uuidSers) {
-            RemoteServiceId service = uuidSers.get(serviceId.getUuid());
+            RemoteServiceId service = uuidSers.getServiceId(serviceId.getUuid());
             if (null != service) {
-                throw new RSServiceAlreadyRegisterException(
-                        RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceAlreadyRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
-            uuidSers.put(serviceId.getUuid(), serviceId);
+            uuidSers.putServiceId(serviceId.getUuid(), serviceId);
         }
     }
 
-    public void updateServiceId(RemoteServiceId serviceId) throws RSServiceAlreadyRegisterException {
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+    public void updateServiceId(RemoteServiceId serviceId) throws RemoteServiceServiceAlreadyRegisterException {
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServices;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
-                services = new HashMap<>();
+            resourceServices = container.getResourceServices(groupKey);
+            if(null == resourceServices) {
+                resourceServices = new ResourceServiceContainer();
             }
-            container.put(groupKey, services);
+            container.putResourceServices(groupKey, resourceServices);
         }
-        String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        Map<String, RemoteServiceId> uuidSers;
-        synchronized (services) {
-            uuidSers = services.get(serviceKey);
-            if(null == uuidSers) {
-                uuidSers = new HashMap<>();
+        String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
+        ServiceNameContainer uuidServices;
+        synchronized (resourceServices) {
+            uuidServices = resourceServices.getServices(serviceKey);
+            if(null == uuidServices) {
+                uuidServices = new ServiceNameContainer();
             }
-            services.put(serviceKey, uuidSers);
+            resourceServices.putServices(serviceKey, uuidServices);
         }
-        synchronized (uuidSers) {
-            RemoteServiceId service = uuidSers.get(serviceId.getUuid());
+        synchronized (uuidServices) {
+            RemoteServiceId service = uuidServices.getServiceId(serviceId.getUuid());
             if(null == service) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
-            uuidSers.put(serviceId.getUuid(), serviceId);
+            uuidServices.putServiceId(serviceId.getUuid(), serviceId);
         }
     }
 
-    public RemoteServiceId getRemoteService(RemoteServiceId serviceId) throws RSServiceNotRegisterException {
+    public RemoteServiceId getRemoteService(RemoteServiceId serviceId) throws RemoteServiceServiceNotRegisterException {
         RemoteServiceId res = null;
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServices;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            resourceServices = container.getResourceServices(groupKey);
+            if(null == resourceServices) {
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        Map<String, RemoteServiceId> uuidSers;
-        synchronized (services) {
-            uuidSers = services.get(serviceKey);
-            if(null == uuidSers) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+        String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
+        ServiceNameContainer uuidServices;
+        synchronized (resourceServices) {
+            uuidServices = resourceServices.getServices(serviceKey);
+            if(null == uuidServices) {
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        synchronized (uuidSers) {
-            res = uuidSers.get(serviceId.getUuid());
-            if (null == res) {
-                throw new RSServiceNotRegisterException(
-                        RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+        synchronized (uuidServices) {
+            if(uuidServices.getServiceIdSize() == 1) {
+                res = uuidServices.getAllServiceId().get(0);
+            }
+            else {
+                res = uuidServices.getServiceId(serviceId.getUuid());
+                if (null == res) {
+                    throw new RemoteServiceServiceNotRegisterException(
+                            RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                }
             }
         }
         return res;
     }
 
-    public List<RemoteServiceId> getServiceIdsInOneGroupResource(RemoteServiceId serviceId) throws RSServiceNotRegisterException {
-        List<RemoteServiceId> resList = new ArrayList<>();
+    public List<RemoteServiceId> getServiceIdsInOneGroupResource(RemoteServiceId serviceId) throws RemoteServiceServiceNotRegisterException {
+        List<RemoteServiceId> resList = new LinkedList<>();
 
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServices;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            resourceServices = container.getResourceServices(groupKey);
+            if(null == resourceServices) {
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        synchronized(services) {
-            for(Map<String, RemoteServiceId> map : services.values()) {
-                resList.addAll(map.values());
-            }
+        synchronized(resourceServices) {
+            resList.addAll(resourceServices.getAllServiceId());
         }
         return resList;
     }
 
-    public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId) throws RSServiceNotRegisterException {
-        List<RemoteServiceId> resList = new ArrayList<>();
+    public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId) throws RemoteServiceServiceNotRegisterException {
+        List<RemoteServiceId> resList = new LinkedList<>();
 
-        String groupKey = RSServiceIdUtils.getGroupResourceKey(serviceId);
-        Map<String, Map<String, RemoteServiceId>> services;
+        String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
+        ResourceServiceContainer resourceServices;
         synchronized (container) {
-            services = container.get(groupKey);
-            if(null == services) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            resourceServices = container.getResourceServices(groupKey);
+            if(null == resourceServices) {
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        String serviceKey = RSServiceIdUtils.getServiceKey(serviceId);
-        Map<String, RemoteServiceId> uuidSers;
-        synchronized (services) {
-            uuidSers = services.get(serviceKey);
-            if(null == uuidSers) {
-                throw new RSServiceNotRegisterException(RSServiceIdUtils.getServiceIdAsPlainString(serviceId));
+        String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
+        ServiceNameContainer uuidServices;
+        synchronized (resourceServices) {
+            uuidServices = resourceServices.getServices(serviceKey);
+            if(null == uuidServices) {
+                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
-            resList.addAll(uuidSers.values());
+            resList.addAll(uuidServices.getAllServiceId());
         }
-
         return resList;
     }
-
-
 }

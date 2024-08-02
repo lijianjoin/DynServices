@@ -2,62 +2,62 @@ package com.dynsers.remoteservice.sdk.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.dynsers.remoteservice.sdk.data.RSMethodRequest;
+import com.dynsers.remoteservice.sdk.data.RemoteServiceMethodRequest;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestRequestParameterValueSerializer {
-
+class TestRequestParameterValueSerializer {
 
 
     @Test
-    public void testSerializeEmptyParameters() throws JsonProcessingException {
-        RSMethodRequest request = new RSMethodRequest();
+    void testSerializeEmptyParameters() throws JsonProcessingException {
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
-        Object[]  objs = new Object[0];
-        request.setParameterValues(objs);
+        Object[] objs = new Object[0];
+        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
         assertEquals("test", rs.getMethod());
         assertEquals(0, rs.getParameterValues().length);
     }
 
     @Test
-    public void testSerializeNullParameters() throws JsonProcessingException {
-        RSMethodRequest request = new RSMethodRequest();
+    void testSerializeNullParameters() throws JsonProcessingException {
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
         assertEquals("test", rs.getMethod());
     }
 
     @Test
-    public void testSerializeParamsJson() throws JsonProcessingException {
+    void testSerializeParamsJson() throws JsonProcessingException {
 
-        RSMethodRequest request = new RSMethodRequest();
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
-        Object[]  objs = new Object[3];
-        objs[0] = Integer.valueOf(5);
-        objs[1] = String.valueOf("2");
+        Object[] objs = new Object[3];
+        objs[0] = 5;
+        objs[1] = "2";
         objs[2] = Double.valueOf("2.5");
-        request.setParameterValues(objs);
+        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
 
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
         assertEquals(3, rs.getParameterValues().length);
         assertEquals(5, rs.getParameterValues()[0]);
@@ -66,22 +66,22 @@ public class TestRequestParameterValueSerializer {
     }
 
     @Test
-    public void testSerializeWithRSId() throws JsonProcessingException {
+    void testSerializeWithRSId() throws JsonProcessingException {
 
-        RSMethodRequest request = new RSMethodRequest();
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
-        Object[]  objs = new Object[3];
-        objs[0] = Integer.valueOf(5);
-        objs[1] = String.valueOf("2");
+        Object[] objs = new Object[3];
+        objs[0] = 5;
+        objs[1] = "2";
         objs[2] = Double.valueOf("2.5");
-        request.setParameterValues(objs);
+        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(request);
         System.out.println(jsString);
 
-        RSMethodRequest rs = mapper
-                .readerFor(RSMethodRequest.class)
+        RemoteServiceMethodRequest rs = mapper
+                .readerFor(RemoteServiceMethodRequest.class)
                 .readValue(jsString);
         assertEquals(3, rs.getParameterValues().length);
         assertEquals(5, rs.getParameterValues()[0]);
