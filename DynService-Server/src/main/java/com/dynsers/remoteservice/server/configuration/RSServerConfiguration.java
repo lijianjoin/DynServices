@@ -5,7 +5,7 @@
  */
 package com.dynsers.remoteservice.server.configuration;
 
-import com.dynsers.remoteservice.sdk.sdk.configuration.RemoteServiceProviderConfig;
+import com.dynsers.remoteservice.sdk.configuration.RemoteServiceProviderConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

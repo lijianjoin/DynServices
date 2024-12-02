@@ -5,8 +5,9 @@
  */
 package com.dynsers.remoteservice.server.repository;
 
+
+import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
 
 public interface CustomerRSRServiceProviderRepo {
 

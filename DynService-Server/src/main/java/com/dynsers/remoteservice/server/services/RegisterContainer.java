@@ -5,7 +5,7 @@
  */
 package com.dynsers.remoteservice.server.services;
 
-import com.dynsers.remoteservice.sdk.container.ServiceIdContainer;
+import com.dynsers.remoteservice.container.ServiceIdContainer;
 
 public class RegisterContainer {
 

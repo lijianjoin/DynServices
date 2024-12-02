@@ -1,13 +1,13 @@
 /*
 
- * Author: Jian Li, jian.li1@sartorius.com
+* Author: Jian Li, jian.li1@sartorius.com
 
- */
+*/
 package com.dynsers.remoteservice.server.services;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
-import com.dynsers.remoteservice.sdk.sdk.serviceconsumer.RemoteServiceInvoker;
-import com.dynsers.remoteservice.sdk.utils.RemoteServiceProviderInfoUtils;
+import com.dynsers.remoteservice.data.RemoteServiceId;
+import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceInvoker;
+import com.dynsers.remoteservice.utils.RemoteServiceProviderInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,21 +27,21 @@ public class RemoteServiceHealthChecker {
 
     @Scheduled(fixedRate = 120000)
     public void checkStatus() throws Exception {
-        List<RemoteServiceId> allServiceProviders = RegisterContainer.getServiceIdContainer().getAllServiceId();
+        List<RemoteServiceId> allServiceProviders =
+                RegisterContainer.getServiceIdContainer().getAllServiceId();
         var invoker = new RemoteServiceInvoker();
-        var paramTypes = new Class[]{};
-        var paramValues = new Object[]{};
+        var paramTypes = new Class[] {};
+        var paramValues = new Object[] {};
         for (RemoteServiceId ser : allServiceProviders) {
             try {
                 String status = (String) invoker.invokeRemoteService(ser, "000", paramTypes, paramValues);
-                log.info(status);
+                log.debug(status);
             } catch (ResourceAccessException accessException) {
-                log.info(
-                        String.format("Remote Service: %s from provider: %s cannot be accessed, will be deleted from register server",
-                                ser.getServiceId(), RemoteServiceProviderInfoUtils.getFormattedRemoteServiceId(ser)));
+                log.warn(String.format(
+                        "Remote Service: %s from provider: %s cannot be accessed, will be deleted from register server",
+                        ser.getServiceId(), RemoteServiceProviderInfoUtils.getFormattedRemoteServiceId(ser)));
                 transactionalService.removeServiceProvider(ser);
             }
         }
     }
-
 }

@@ -1,11 +1,11 @@
 /*
 
- * Author: Jian Li, jian.li1@sartorius.com
+* Author: Jian Li, jian.li1@sartorius.com
 
- */
+*/
 package com.dynsers.remoteservice.server.repository;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -22,20 +22,22 @@ public class RSRServiceProviderRepoImpl implements CustomerRSRServiceProviderRep
     @Override
     public RemoteServiceProviderEntity findByRemoteServiceId(RemoteServiceId serviceId) {
         RemoteServiceProviderEntity res = null;
-        Query query = em.createQuery("SELECT e FROM RemoteServiceProviderEntity e " +
-                        "WHERE e.groupId = :groupId " +
-                        "AND e.resourceId = :resourceId " +
-                        "AND e.resourceVersion = :resourceVersion " +
-                        "AND e.serviceId = :serviceId " +
-                        "AND e.serviceVersion = :serviceVersion " +
-                        "AND e.uuid = :uuid "
-                , RemoteServiceProviderEntity.class);
+        Query query = em.createQuery(
+                "SELECT e FROM RemoteServiceProviderEntity e " + "WHERE e.groupId = :groupId "
+                        + "AND e.resourceId = :resourceId "
+                        + "AND e.resourceVersion = :resourceVersion "
+                        + "AND e.serviceName = :serviceName "
+                        + "AND e.serviceId = :serviceId "
+                        + "AND e.serviceVersion = :serviceVersion "
+                        + "AND e.uuid = :uuid ",
+                RemoteServiceProviderEntity.class);
         query.setParameter("groupId", serviceId.getGroupId());
         query.setParameter("resourceId", serviceId.getResourceId());
         query.setParameter("resourceVersion", serviceId.getResourceVersion());
         query.setParameter("serviceId", serviceId.getServiceId());
         query.setParameter("serviceVersion", serviceId.getServiceVersion());
         query.setParameter("uuid", serviceId.getUuid());
+        query.setParameter("serviceName", serviceId.getServiceName());
 
         try {
             res = (RemoteServiceProviderEntity) query.getSingleResult();

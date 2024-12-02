@@ -5,7 +5,7 @@
  */
 package com.dynsers.remoteservice.server.data.mapper;
 
-import com.dynsers.remoteservice.sdk.data.RemoteServiceId;
+import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.server.data.entities.RemoteServiceProviderEntity;
 import org.mapstruct.*;
 

@@ -1,20 +1,24 @@
 /*
 
- * Author: Jian Li, jian.li1@sartorius.com
+* Author: Jian Li, jian.li1@sartorius.com
 
- */
+*/
 package com.dynsers.remoteservice.server.data.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "service_provider", schema = "service-register")
 @Accessors(chain = true)
 public class RemoteServiceProviderEntity {
 
+    // @GeneratedValue ALWAYS creating new Sequence number and overwrites provided ones that are already set at the
+    // entity before saving
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -41,6 +45,8 @@ public class RemoteServiceProviderEntity {
     @Column(name = "service_name", nullable = false)
     private String serviceName;
 
+    @Column(name = "service_location", nullable = false)
+    private String serviceLocation;
 
     @Column(name = "detection_interval", nullable = false)
     private Integer detectionInterval;
@@ -48,6 +54,6 @@ public class RemoteServiceProviderEntity {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @Column(name = "additional_info", nullable = true)
+    @Column(name = "additional_info")
     private String additionalInfo;
 }
