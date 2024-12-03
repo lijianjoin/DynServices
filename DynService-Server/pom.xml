@@ -79,7 +79,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
                 <configuration>
-                    <mainClass>com.sartorius.ismart2.serviceregister.ServiceRegisterApplication</mainClass>
+                    <mainClass>com.dynsers.remoteservice.server.ServiceRegisterApplication</mainClass>
                     <layout>JAR</layout>
                 </configuration>
                 <executions>
