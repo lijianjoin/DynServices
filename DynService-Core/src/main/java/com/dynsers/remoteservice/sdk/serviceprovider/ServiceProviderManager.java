@@ -33,7 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -88,6 +90,9 @@ public class ServiceProviderManager {
             Map<String, Object> beans = SpringContextUtils.getContext().getBeansWithAnnotation(ServiceProvider.class);
             beans.forEach((key, value) -> {
                 var serviceId = new RemoteServiceId(this.getBaseServiceId());
+                String[] beanNames = ((AbstractApplicationContext)SpringContextUtils.getContext()).getBeanNamesForType(value.getClass(), true, true);
+                DefaultListableBeanFactory factory = (DefaultListableBeanFactory) ((AbstractApplicationContext)SpringContextUtils.getContext()).getBeanFactory();
+//                factory.findAnnotationOnBean(value.getClass().);
                 ServiceProvider provider = value.getClass().getAnnotation(ServiceProvider.class);
                 serviceId.setUuid(
                         StringUtils.isEmpty(provider.uuid()) ? String.valueOf(UUID.randomUUID()) : provider.uuid());

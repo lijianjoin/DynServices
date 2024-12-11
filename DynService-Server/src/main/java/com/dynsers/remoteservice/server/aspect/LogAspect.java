@@ -16,23 +16,34 @@
 
 package com.dynsers.remoteservice.server.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class LogAspect {
 
-    @Around("within(com.dynsers.remoteservice..*)")
+    @Around("within(com.dynsers.remoteservice.server.services..*)")
     public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
-        //        Object retVal = pjp.proceed();
+        Object retVal = pjp.proceed();
         pjp.getSignature();
         long end = System.currentTimeMillis();
         //        logger.debug(pjp.getSignature().toShortString() + " Finish: " + (end - start) + "ms");
 
         return new Object();
     }
+
+    @Before("execution(com.dynsers.remoteservice.server.services.new(..))")
+    public void beforeConstructor(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        System.out.println("Before constructor logic for monitored class: ");
+        System.out.println("Arguments passed -> " + args[0]);
+    }
+
+
 }

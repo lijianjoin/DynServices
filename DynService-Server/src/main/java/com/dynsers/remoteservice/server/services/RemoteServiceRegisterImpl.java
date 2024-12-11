@@ -11,6 +11,7 @@ import com.dynsers.remoteservice.enums.ServiceProviderTypes;
 import com.dynsers.remoteservice.exceptions.RemoteServiceServiceAlreadyRegisterException;
 import com.dynsers.remoteservice.exceptions.RemoteServiceServiceNotRegisterException;
 import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,5 +54,11 @@ public class RemoteServiceRegisterImpl implements RemoteServiceRegistry {
     @Override
     public void forceRegisterServiceProvider(RemoteServiceId serviceId) {
         transactionalService.forceRegisterServiceProvider(serviceId);
+    }
+
+    @Scheduled(fixedRate = 1000)
+    public void demo() throws Exception {
+        System.out.println("demo");
+        DemoClass demoClass = new DemoClass();
     }
 }
