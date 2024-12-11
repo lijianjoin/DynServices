@@ -20,6 +20,7 @@ import com.dynsers.remoteservice.annotations.RemoteService;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.enums.ServiceProviderTypes;
 import com.dynsers.remoteservice.exceptions.RemoteServiceException;
+import com.dynsers.remoteservice.exceptions.RemoteServiceNoUniqueServiceProviderDefinitionException;
 import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
 import com.dynsers.remoteservice.annotations.ServiceProvider;
 import com.dynsers.remoteservice.sdk.configuration.RemoteServiceProviderProperties;
@@ -38,6 +39,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -87,12 +89,27 @@ public class ServiceProviderManager {
     protected void scanAndRegisterServiceProviders() {
         // Get all beans with annotation RemoteServiceProvider
         if (!isTestMode()) {
+            DefaultListableBeanFactory factory = (DefaultListableBeanFactory) ((AbstractApplicationContext)SpringContextUtils.getContext()).getBeanFactory();
+//            String[] deBeans = SpringContextUtils.getContext().getBeanDefinitionNames();
+//            List<String> beanValues = List.of(deBeans);
+//            beanValues.forEach( value -> {
+//                RemoteService anno = factory.findAnnotationOnBean(value, RemoteService.class);
+//                if(anno != null) {
+//                    System.out.println("xx");
+//                }
+//            });
+
+
             Map<String, Object> beans = SpringContextUtils.getContext().getBeansWithAnnotation(ServiceProvider.class);
             beans.forEach((key, value) -> {
                 var serviceId = new RemoteServiceId(this.getBaseServiceId());
                 String[] beanNames = ((AbstractApplicationContext)SpringContextUtils.getContext()).getBeanNamesForType(value.getClass(), true, true);
-                DefaultListableBeanFactory factory = (DefaultListableBeanFactory) ((AbstractApplicationContext)SpringContextUtils.getContext()).getBeanFactory();
-//                factory.findAnnotationOnBean(value.getClass().);
+
+                if(beanNames.length>1) {
+                    throw new RemoteServiceNoUniqueServiceProviderDefinitionException(value.getClass().getName());
+                }
+
+                RemoteService anno = factory.findAnnotationOnBean(beanNames[0], RemoteService.class);
                 ServiceProvider provider = value.getClass().getAnnotation(ServiceProvider.class);
                 serviceId.setUuid(
                         StringUtils.isEmpty(provider.uuid()) ? String.valueOf(UUID.randomUUID()) : provider.uuid());
