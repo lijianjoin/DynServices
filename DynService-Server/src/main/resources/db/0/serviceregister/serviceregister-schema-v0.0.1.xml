@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+  <changeSet id="1" author="ismart2">
+    <createTable tableName="service_provider" schemaName="service-register">
+      <column name="id" type="SERIAL">
+        <constraints primaryKey="true"/>
+      </column>
+      <column name="uri" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="groupid" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="resourceid" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="serviceid" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="resource_version" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="service_version" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="uuid" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="additional_info" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="detection_interval" type="INTEGER">
+        <constraints nullable="false"/>
+      </column>
+      <column name="service_name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>
