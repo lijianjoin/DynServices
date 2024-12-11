@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Creates the product type master data table -->
+    <changeSet author="ismart2" id="master-data-parameters-process-v0.0.1">
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="9cbb8796-cd96-4786-975e-426fe9807e06"/>
+            <column name="process_step_routine_template_id" value="16b13b88-d534-4c11-b87d-90e75edf635f"/>
+            <column name="name" value="RoutineParameterRequestSystemBodyNumber"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterRequestSystemBodyNumber", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="4f733e7f-18bb-4fa0-b05c-deaa79feb913"/>
+            <column name="process_step_routine_template_id" value="82e2c697-22d0-44d3-9650-c70e195e8468"/>
+            <column name="name" value="RoutineParameterSetPpsMilestone"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterSetPpsMilestone", "value": {"maxRunCycles": 3, "ppsMilestoneList": ["INITIATION"]}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="c0a4dac1-c153-455e-8149-378d657ab62a"/>
+            <column name="process_step_routine_template_id" value="58f22e89-0569-4b2f-a1e6-93aaa1ce379d"/>
+            <column name="name" value="RoutineParameterCalibration"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{
+                            "type": "RoutineParameterCalibration",
+                            "value": {
+                                "maxRunCycles": 3,
+                                "maxMeasureCycles": 3,
+                                "calFactorMax": {
+                                    "quantity": {
+                                        "value": "4.0E-7",
+                                        "unit": "g/d",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "calFactorMin": {
+                                    "quantity": {
+                                        "value": "3.0E-7",
+                                        "unit": "g/d",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "calZeroMax": {
+                                    "quantity": {
+                                        "value": "260000000",
+                                        "unit": "d",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "calZeroMin": {
+                                    "quantity": {
+                                        "value": "170000000",
+                                        "unit": "d",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "calTemperatureMax": {
+                                    "quantity": {
+                                        "value": "1",
+                                        "unit": "K",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "calTemperatureMin": {
+                                    "quantity": {
+                                        "value": "4",
+                                        "unit": "K",
+                                        "scale": "ABSOLUTE"
+                                    },
+                                    "instant": "2024-07-24T16:50:24.737Z",
+                                    "timestamp": 1721839824737
+                                },
+                                "weightSpecificationSetBox": [
+                                    {
+                                        "id": "middle",
+                                        "using": "Standard",
+                                        "sequence": 1,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 30,
+                                                "y": 50,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftFront",
+                                        "using": "Standard",
+                                        "sequence": 2,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftRear",
+                                        "using": "Standard",
+                                        "sequence": 3,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightRear",
+                                        "using": "Standard",
+                                        "sequence": 4,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightFront",
+                                        "using": "Standard",
+                                        "sequence": 5,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="15632960-9e0b-43ba-9620-3ff254e35e9e"/>
+            <column name="process_step_routine_template_id" value="e0a5c96f-c5c0-414b-a9ba-0b5390460dda"/>
+            <column name="name" value="RoutineParameterCheckWeightLifter"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterCheckWeightLifter", "value": {"maxRunCycles": 3, "isInternalLinearizationWeightExistent": false, "maxMeasureCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="95300b9a-1c1e-4618-8199-ceca227af1f7"/>
+            <column name="process_step_routine_template_id" value="2788f38b-8b2a-48d5-b6a2-1db6eda189b9"/>
+            <column name="name" value="RoutineParameterCheckElectricalZeroPoint"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterCheckElectricalZeroPoint", "value": {"maxRunCycles": 3, "maxRunCycles": 3.0, "dutyCycleMin": 1.0, "electricalZeroPointMin": 1.0, "electricalZeroPointMax": 3.0 }}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="362179d3-87ab-4be3-8691-4cd85686e393"/>
+            <column name="process_step_routine_template_id" value="11f5744a-653b-472c-8a99-feb4e6e79b1e"/>
+            <column name="name" value="RoutineParameterEccentricityAdjustment"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{
+                            "type": "RoutineParameterEccentricityAdjustment",
+                            "value": {
+                                "maxRunCycles": 3,
+                                "weightSpecificationSetBox": [
+                                    {
+                                        "id": "middle",
+                                        "using": "Standard",
+                                        "sequence": 1,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 30,
+                                                "y": 50,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftFront",
+                                        "using": "Standard",
+                                        "sequence": 2,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftRear",
+                                        "using": "Standard",
+                                        "sequence": 3,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightRear",
+                                        "using": "Standard",
+                                        "sequence": 4,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightFront",
+                                        "using": "Standard",
+                                        "sequence": 5,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "qualityToleranceList": [
+                                    {
+                                        "qualityClass": "GK20",
+                                        "tolerance": 0.2
+                                    },
+                                    {
+                                        "qualityClass": "GK10",
+                                        "tolerance": 0.1
+                                    }
+                                ]
+                            }
+                        }'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="2d020775-d4a2-4a5f-b5c8-c0b4a9b016e0"/>
+            <column name="process_step_routine_template_id" value="08233819-6ba0-4800-849f-4ed7b1e5a98d"/>
+            <column name="name" value="RoutineParameterEccentricityCheck"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{
+                            "type": "RoutineParameterEccentricityCheck",
+                            "value": {
+                                "maxRunCycles": 3,
+                                "weightSpecificationSetBox": [
+                                    {
+                                        "id": "middle",
+                                        "using": "Standard",
+                                        "sequence": 1,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 30,
+                                                "y": 50,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftFront",
+                                        "using": "Standard",
+                                        "sequence": 2,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftRear",
+                                        "using": "Standard",
+                                        "sequence": 3,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightRear",
+                                        "using": "Standard",
+                                        "sequence": 4,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightFront",
+                                        "using": "Standard",
+                                        "sequence": 5,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "qualityToleranceList": [
+                                    {
+                                        "qualityClass": "GK20",
+                                        "tolerance": 0.2
+                                    },
+                                    {
+                                        "qualityClass": "GK10",
+                                        "tolerance": 0.1
+                                    }
+                                ]
+                            }
+                        }'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="1ee99b7a-5127-4014-88f8-910674c9531b"/>
+            <column name="process_step_routine_template_id" value="5111f450-cbdb-44c2-86e5-dead4b3b7f8e"/>
+            <column name="name" value="RoutineParameterCheckCheckpointPattern"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterCheckCheckpointPattern", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="1b1e31ca-3cd7-4f20-8ec5-a394c132433f"/>
+            <column name="process_step_routine_template_id" value="4ec5e366-9060-46a2-9bc2-f3b785a85655"/>
+            <column name="name" value="RoutineParameterBackupBalanceDataset"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterBackupBalanceDataset", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="fc0f0317-72c7-411c-b104-257a666f66b5"/>
+            <column name="process_step_routine_template_id" value="bc7b3d93-5a24-4119-9e65-7c3bfa059b78"/>
+            <column name="name" value="RoutineParameterSetPpsMilestone"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterSetPpsMilestone", "value": {"maxRunCycles": 3, "ppsMilestoneList": ["ADJUSTMENT"]}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="cbff45be-90cb-4a0a-8b70-459c7694d332"/>
+            <column name="process_step_routine_template_id" value="c3e3f29d-4726-4b77-8fa0-dd07af7f0254"/>
+            <column name="name" value="RoutineParameterCheckElectricalZeroPoint"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterCheckElectricalZeroPoint", "value": {"maxRunCycles": 3, "maxRunCycles": 3.0, "dutyCycleMin": 1.0, "electricalZeroPointMin": 1.0, "electricalZeroPointMax": 3.0 }}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="e0b2bd0a-2863-4816-949a-fd7a46b2a2f7"/>
+            <column name="process_step_routine_template_id" value="a5f4fc83-168f-4026-908e-58a96ab74e19"/>
+            <column name="name" value="RoutineParameterZeroLevelAdjustment"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterZeroLevelAdjustment", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="976c7847-f009-48ac-a109-4839fba65a3f"/>
+            <column name="process_step_routine_template_id" value="3544d0f2-7255-4d08-beef-522f2273d912"/>
+            <column name="name" value="RoutineParameterInternalWeightValueAdjustment"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterInternalWeightValueAdjustment", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="0dceb0e0-398a-4197-ab1c-72ae793918b8"/>
+            <column name="process_step_routine_template_id" value="4bf3938a-a243-4f08-9828-98613bca47d2"/>
+            <column name="name" value="RoutineParameterAdjustmentAccuracyCheck"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterAdjustmentAccuracyCheck", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="434940f7-e956-4693-8580-ec9b98e362f7"/>
+            <column name="process_step_routine_template_id" value="d195053b-51ae-46bf-b265-faa5f22dff60"/>
+            <column name="name" value="RoutineParameterEccentricityCheck"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{
+                            "type": "RoutineParameterEccentricityCheck",
+                            "value": {
+                                "maxRunCycles": 3,
+                                "weightSpecificationSetBox": [
+                                    {
+                                        "id": "middle",
+                                        "using": "Standard",
+                                        "sequence": 1,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 30,
+                                                "y": 50,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftFront",
+                                        "using": "Standard",
+                                        "sequence": 2,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "leftRear",
+                                        "using": "Standard",
+                                        "sequence": 3,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": -21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightRear",
+                                        "using": "Standard",
+                                        "sequence": 4,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": 21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id": "rightFront",
+                                        "using": "Standard",
+                                        "sequence": 5,
+                                        "sanityCheckToleranceLowerOffset": 5,
+                                        "sanityCheckToleranceUpperOffset": 5,
+                                        "stabilityCriterion": {
+                                            "@type": "CriterionGram"
+                                        },
+                                        "weightSpecifications": [
+                                            {
+                                                "@type": "WeightSpecificationHand",
+                                                "nominalValue": 2E+2,
+                                                "x": 21.21,
+                                                "y": -21.21,
+                                                "sequence": 1
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "qualityToleranceList": [
+                                    {
+                                        "qualityClass": "GK20",
+                                        "tolerance": 0.2
+                                    },
+                                    {
+                                        "qualityClass": "GK10",
+                                        "tolerance": 0.1
+                                    }
+                                ]
+                            }
+                        }'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="49e52cb7-028d-495a-a251-90a2a89cfcf1"/>
+            <column name="process_step_routine_template_id" value="074f398e-b48d-4403-91ec-892cdcfe4bb4"/>
+            <column name="name" value="RoutineParameterLinearityCheck"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values" value='{"type": "RoutineParameterLinearityCheck", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="c2ade95b-73a9-4216-8e58-0f4447916089"/>
+            <column name="process_step_routine_template_id" value="3e8f4caa-daba-4c40-9cd8-16e150598281"/>
+            <column name="name" value="RoutineParameterScanQualityCheckId"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values" value='{"type": "RoutineParameterScanQualityCheckId", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="577c714f-cfbb-4b72-8d02-e9c9d6ebb714"/>
+            <column name="process_step_routine_template_id" value="691d016c-de5e-4d3d-812d-2327503691df"/>
+            <column name="name" value="RoutineParameterFatGenerationAndPrint"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterFatGenerationAndPrint", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="13334271-2568-4abb-bb69-70e65d5f70fe"/>
+            <column name="process_step_routine_template_id" value="73570d58-dbdc-4f6f-aa3e-13c9ea25d579"/>
+            <column name="name" value="RoutineParameterCheckCheckpointPattern"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterCheckCheckpointPattern", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="b83cc603-588b-4362-bd3b-299856a4d7cd"/>
+            <column name="process_step_routine_template_id" value="02da23e2-c31f-4d7f-abf4-107d25d22097"/>
+            <column name="name" value="RoutineParameterBlockSerialNumberForFutureActivities"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterBlockSerialNumberForFutureActivities", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="363072b2-c118-40f4-8971-b13bee567c0d"/>
+            <column name="process_step_routine_template_id" value="9b97b181-a3be-4efd-acf3-1c560101c5da"/>
+            <column name="name" value="RoutineParameterBackupBalanceDataset"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterBackupBalanceDataset", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="0888a69f-9f4b-49d3-8bac-79896b787596"/>
+            <column name="process_step_routine_template_id" value="4bbbbb9d-8983-4f1d-9890-14115876eec1"/>
+            <column name="name" value="RoutineParameterResetToFactoryDefaults"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterResetToFactoryDefaults", "value": {"maxRunCycles": 3}}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="37749f52-aaa6-4a3d-b751-1d6970662a49"/>
+            <column name="process_step_routine_template_id" value="1f1a29ed-92ec-4920-835a-6faa8ac77c45"/>
+            <column name="name" value="RoutineParameterSetPpsMilestone"/>
+            <column name="description"
+                    value="Parameter for processStepRoutine Templates. Name relates to the class used for deserializing value part of the JSON String"/>
+            <column name="values"
+                    value='{"type": "RoutineParameterSetPpsMilestone", "value": {"maxRunCycles": 3, "ppsMilestoneList": ["FINAL_COMPLETION"]}}'/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Creates the available routine master data table -->
+    <changeSet author="ismart2" id="master-data-parameters-process-step-routine-v0.0.4">
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+                        "type": "RoutineParameterCheckElectricalZeroPoint",
+                        "value": {
+                            "maxRunCycles": 3,
+                            "dutyCycleMax": 3.0,
+                            "dutyCycleMin": 1.0,
+                            "electricalZeroPointMin": 1.0,
+                            "electricalZeroPointMax": 3.0,
+                            "weightSpecificationSetBox": [
+                                {
+                                    "id": "noLoad",
+                                    "using": "Preload",
+                                    "sequence": 1,
+                                    "stabilityCriterion": {
+                                        "@type": "CriterionOff"
+                                    },
+                                    "weightSpecifications": [
+                                        {
+                                            "@type": "WeightSpecificationHand",
+                                            "nominalValue": 0,
+                                            "x": 0,
+                                            "y": 0,
+                                            "sequence": 1
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }'/>
+            <where>name = 'RoutineParameterCheckElectricalZeroPoint'</where>
+        </update>
+
+    </changeSet>
+</databaseChangeLog>

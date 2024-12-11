@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="ismart2" id="productType-schema-v0.0.1">
+        <!-- ProductTypeEntity -->
+        <createTable remarks="The ProductType information"
+                     schemaName="product_type_schema"
+                     tableName="product_type">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="version" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- ProcessTemplateEntity -->
+        <createTable remarks="The ProcessTemplate information"
+                     schemaName="product_type_schema"
+                     tableName="process_template">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product_type_id" type="uuid">
+                <constraints foreignKeyName="fk_process_template_product_type_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="product_type"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="version" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- ProcessStepTemplateEntity -->
+        <createTable remarks="The ProcessTemplate information"
+                     schemaName="product_type_schema"
+                     tableName="process_step_template">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="process_template_id" type="uuid">
+                <constraints foreignKeyName="fk_process_step_template_process_template_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="process_template"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="sequence" type="int">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- ProcessStepRoutineTemplateEntity -->
+        <createTable remarks="The ProcessTemplate information"
+                     schemaName="product_type_schema"
+                     tableName="process_step_routine_template">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="process_step_template_id" type="uuid">
+                <constraints foreignKeyName="fk_process_step_routine_template_process_step_template_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="process_step_template"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="sequence" type="int">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="workplace_type_id" type="uuid">
+                <constraints foreignKeyName="fk_process_step_routine_template_workplace_type_id"
+                             referencedTableSchemaName="workplace_schema"
+                             referencedTableName="workplace_type"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="routine_service_name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="version" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- ParametersTemplateEntity -->
+        <createTable remarks="The ParametersTemplate information"
+                     schemaName="product_type_schema"
+                     tableName="parameters_template">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product_type_id" type="uuid">
+                <constraints foreignKeyName="fk_parameters_template_product_type_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="product_type"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="process_template_id" type="uuid">
+                <constraints foreignKeyName="fk_parameters_template_process_template_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="process_template"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="process_step_template_id" type="uuid">
+                <constraints foreignKeyName="fk_parameters_template_process_step_template_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="process_step_template"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="process_step_routine_template_id" type="uuid">
+                <constraints foreignKeyName="fk_parameters_template_process_step_routine_template_id"
+                             referencedTableSchemaName="product_type_schema"
+                             referencedTableName="process_step_routine_template"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="values" type="json">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

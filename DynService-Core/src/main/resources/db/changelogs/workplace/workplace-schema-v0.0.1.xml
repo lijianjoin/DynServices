@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="ismart2" id="workplace-schema-v0.0.1">
+        <!-- WorkplaceEntity -->
+        <createTable remarks="The Workplace information"
+                     schemaName="workplace_schema"
+                     tableName="workplace">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="type_id" type="uuid">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="tag_id" type="uuid">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="uri" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- WorkplaceTypeEntity -->
+        <createTable remarks="The WorkplaceType information"
+                     schemaName="workplace_schema"
+                     tableName="workplace_type">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- TagEntity -->
+        <createTable remarks="The Tag information"
+                     schemaName="workplace_schema"
+                     tableName="tag">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- WeightSetEntity -->
+        <createTable remarks="The Planned Process Step information"
+                     schemaName="workplace_schema"
+                     tableName="weight_set">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="workplace_id" type="uuid">
+                <constraints foreignKeyName="fk_weight_set_workplace_id"
+                             referencedTableSchemaName="workplace_schema"
+                             referencedTableName="workplace"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="gwi" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- WeightEntity -->
+        <createTable remarks="The Weight information"
+                     schemaName="workplace_schema"
+                     tableName="weight">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="weight_set_id" type="uuid">
+                <constraints foreignKeyName="fk_weight_weight_set_id"
+                             referencedTableSchemaName="workplace_schema"
+                             referencedTableName="weight_set"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="nominal_value" type="double">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="deviation_value" type="double">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="mark" type="double">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="form" type="varchar(255)">
+                <constraints primaryKey="false"/>
+            </column>
+            <column name="measurement_accuracy" type="double">
+                <constraints primaryKey="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

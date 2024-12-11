@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="process-v1.0.1" author="ismart2">
+        <preConditions onFail="CONTINUE">
+            <dbms type="mssql"/>
+        </preConditions>
+        <sqlFile path="db/sql/init/mssql/01_ismart-init-mssql.sql"/>
+        <sqlFile path="db/sql/init/mssql/02_assux_bpi_weight.sql"/>
+        <sqlFile path="db/sql/init/mssql/03_kopa.sql"/>
+    </changeSet>
+</databaseChangeLog>

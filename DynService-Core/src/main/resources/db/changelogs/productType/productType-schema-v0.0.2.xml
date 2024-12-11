@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="ismart2" id="productType-schema-v0.0.2">
+
+        <!-- ProductTypeEntity -->
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="name"
+                              schemaName="product_type_schema"
+                              tableName="product_type"/>
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="version"
+                              schemaName="product_type_schema"
+                              tableName="product_type"/>
+
+        <!-- ProcessTemplateEntity -->
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="name"
+                              schemaName="product_type_schema"
+                              tableName="process_template"/>
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="version"
+                              schemaName="product_type_schema"
+                              tableName="process_template"/>
+        <addNotNullConstraint columnDataType="uuid"
+                              columnName="product_type_id"
+                              schemaName="product_type_schema"
+                              tableName="process_template"/>
+
+
+        <!-- ProcessStepTemplateEntity -->
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="name"
+                              schemaName="product_type_schema"
+                              tableName="process_step_template"/>
+        <addNotNullConstraint columnDataType="int"
+                              columnName="sequence"
+                              schemaName="product_type_schema"
+                              tableName="process_step_template"/>
+        <addNotNullConstraint columnDataType="uuid"
+                              columnName="process_template_id"
+                              schemaName="product_type_schema"
+                              tableName="process_step_template"/>
+
+        <!-- ProcessStepRoutineTemplateEntity -->
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="name"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="routine_service_name"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="version"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+        <addNotNullConstraint columnDataType="int"
+                              columnName="sequence"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+        <addNotNullConstraint columnDataType="uuid"
+                              columnName="process_step_template_id"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+        <addNotNullConstraint columnDataType="uuid"
+                              columnName="workplace_type_id"
+                              schemaName="product_type_schema"
+                              tableName="process_step_routine_template"/>
+
+        <!-- ParametersTemplateEntity -->
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="name"
+                              schemaName="product_type_schema"
+                              tableName="parameters_template"/>
+        <addNotNullConstraint columnDataType="json"
+                              columnName="values"
+                              schemaName="product_type_schema"
+                              tableName="parameters_template"/>
+        <addNotNullConstraint columnDataType="varchar(255)"
+                              columnName="description"
+                              schemaName="product_type_schema"
+                              tableName="parameters_template"/>
+    </changeSet>
+</databaseChangeLog>

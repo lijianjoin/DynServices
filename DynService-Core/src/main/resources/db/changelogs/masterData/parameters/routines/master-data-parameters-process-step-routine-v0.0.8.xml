@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Creates the product type master data table -->
+    <changeSet author="ismart2" id="master-data-parameters-process-v0.0.8">
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterCheckWeightLifter",
+    "value": {
+        "@type": "RoutineParameterCheckWeightLifter",
+        "maxRunCycles": 3,
+        "isInternalLinearizationWeightExistent": false,
+        "maxMeasureCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterCheckWeightLifter'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterCheckElectricalZeroPoint",
+    "value": {
+        "@type": "RoutineParameterCheckElectricalZeroPoint",
+        "maxRunCycles": 3,
+        "dutyCycleMax": 3.0,
+        "dutyCycleMin": 1.0,
+        "electricalZeroPointMin": 1.0,
+        "electricalZeroPointMax": 3.0,
+        "weightSpecificationSetBox": [
+            {
+                "id": "noLoad",
+                "using": "Preload",
+                "sequence": 1,
+                "stabilityCriterion": {
+                    "@type": "CriterionOff"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 0,
+                        "x": 0,
+                        "y": 0,
+                        "sequence": 1
+                    }
+                ]
+            }
+        ]
+    }
+}'/>
+            <where>name = 'RoutineParameterCheckElectricalZeroPoint'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterEccentricityAdjustment",
+    "value": {
+        "@type": "RoutineParameterEccentricityAdjustment",
+        "maxRunCycles": 3,
+        "weightSpecificationSetBox": [
+            {
+                "id": "middle",
+                "using": "Standard",
+                "sequence": 1,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 30,
+                        "y": 50,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "leftFront",
+                "using": "Standard",
+                "sequence": 2,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": -21.21,
+                        "y": -21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "leftRear",
+                "using": "Standard",
+                "sequence": 3,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": -21.21,
+                        "y": 21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "rightRear",
+                "using": "Standard",
+                "sequence": 4,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 21.21,
+                        "y": 21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "rightFront",
+                "using": "Standard",
+                "sequence": 5,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 21.21,
+                        "y": -21.21,
+                        "sequence": 1
+                    }
+                ]
+            }
+        ],
+        "qualityToleranceList": [
+            {
+                "qualityClass": "GK20",
+                "tolerance": 0.2
+            },
+            {
+                "qualityClass": "GK10",
+                "tolerance": 0.1
+            }
+        ]
+    }
+}'/>
+            <where>name = 'RoutineParameterEccentricityAdjustment'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterEccentricityCheck",
+    "value": {
+        "@type": "RoutineParameterEccentricityCheck",
+        "maxRunCycles": 3,
+        "weightSpecificationSetBox": [
+            {
+                "id": "middle",
+                "using": "Standard",
+                "sequence": 1,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 30,
+                        "y": 50,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "leftFront",
+                "using": "Standard",
+                "sequence": 2,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": -21.21,
+                        "y": -21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "leftRear",
+                "using": "Standard",
+                "sequence": 3,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": -21.21,
+                        "y": 21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "rightRear",
+                "using": "Standard",
+                "sequence": 4,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 21.21,
+                        "y": 21.21,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "rightFront",
+                "using": "Standard",
+                "sequence": 5,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 21.21,
+                        "y": -21.21,
+                        "sequence": 1
+                    }
+                ]
+            }
+        ],
+        "qualityToleranceList": [
+            {
+                "qualityClass": "GK20",
+                "tolerance": 0.2
+            },
+            {
+                "qualityClass": "GK10",
+                "tolerance": 0.1
+            }
+        ]
+    }
+}'/>
+            <where>name = 'RoutineParameterEccentricityCheck'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterCheckCheckpointPattern",
+    "value": {
+        "@type": "RoutineParameterCheckCheckpointPattern",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterCheckCheckpointPattern'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterBackupBalanceDataset",
+    "value": {
+        "@type": "RoutineParameterBackupBalanceDataset",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterBackupBalanceDataset'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterSetPpsMilestone",
+    "value": {
+        "@type": "RoutineParameterSetPpsMilestone",
+        "maxRunCycles": 3,
+        "ppsMilestoneList": [
+            "FINAL_COMPLETION"
+        ]
+    }
+}'/>
+            <where>id = '37749f52-aaa6-4a3d-b751-1d6970662a49'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterSetPpsMilestone",
+    "value": {
+        "@type": "RoutineParameterSetPpsMilestone",
+        "maxRunCycles": 3,
+        "ppsMilestoneList": [
+            "INITIATION"
+        ]
+    }
+}'/>
+            <where>id = '4f733e7f-18bb-4fa0-b05c-deaa79feb913'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterSetPpsMilestone",
+    "value": {
+        "@type": "RoutineParameterSetPpsMilestone",
+        "maxRunCycles": 3,
+        "ppsMilestoneList": [
+            "ADJUSTMENT"
+        ]
+    }
+}'/>
+            <where>id = 'fc0f0317-72c7-411c-b104-257a666f66b5'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterZeroLevelAdjustment",
+    "value": {
+        "@type": "RoutineParameterZeroLevelAdjustment",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterZeroLevelAdjustment'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterInternalWeightValueAdjustment",
+    "value": {
+        "@type": "RoutineParameterInternalWeightValueAdjustment",
+        "maxRunCycles": 3,
+        "maxMeasureCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterInternalWeightValueAdjustment'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterAdjustmentAccuracyCheck",
+    "value": {
+        "@type": "RoutineParameterAdjustmentAccuracyCheck",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterAdjustmentAccuracyCheck'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterRequestSystemBodyNumber",
+    "value": {
+        "@type": "RoutineParameterRequestSystemBodyNumber",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>id = '9cbb8796-cd96-4786-975e-426fe9807e06'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterLinearityCheck",
+    "value": {
+        "@type": "RoutineParameterLinearityCheck",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterLinearityCheck'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterScanQualityCheckId",
+    "value": {
+        "@type": "RoutineParameterScanQualityCheckId",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterScanQualityCheckId'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterFatGenerationAndPrint",
+    "value": {
+        "@type": "RoutineParameterFatGenerationAndPrint",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterFatGenerationAndPrint'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterBlockSerialNumberForFutureActivities",
+    "value": {
+        "@type": "RoutineParameterBlockSerialNumberForFutureActivities",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterBlockSerialNumberForFutureActivities'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterResetToFactoryDefaults",
+    "value": {
+        "@type": "RoutineParameterResetToFactoryDefaults",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterResetToFactoryDefaults'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterResetToFactoryDefaults",
+    "value": {
+        "@type": "RoutineParameterResetToFactoryDefaults",
+        "maxRunCycles": 3
+    }
+}'/>
+            <where>name = 'RoutineParameterResetToFactoryDefaults'</where>
+        </update>
+
+        <update tableName="parameters_template" schemaName="product_type_schema">
+            <column name="values"
+                    value='{
+    "type": "RoutineParameterCalibration",
+    "value": {
+        "@type": "RoutineParameterCalibration",
+        "maxRunCycles": 3,
+        "maxMeasureCycles": 3,
+        "calFactorMax": {
+            "quantity": {
+                "value": "4.0E-7",
+                "unit": "g/d",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "calFactorMin": {
+            "quantity": {
+                "value": "3.0E-7",
+                "unit": "g/d",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "calZeroMax": {
+            "quantity": {
+                "value": "260000000",
+                "unit": "d",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "calZeroMin": {
+            "quantity": {
+                "value": "170000000",
+                "unit": "d",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "calTemperatureMax": {
+            "quantity": {
+                "value": "1",
+                "unit": "K",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "calTemperatureMin": {
+            "quantity": {
+                "value": "4",
+                "unit": "K",
+                "scale": "ABSOLUTE"
+            },
+            "instant": "2024-07-24T16:50:24.737Z",
+            "timestamp": 1721839824737
+        },
+        "weightSpecificationSetBox": [
+            {
+                "id": "noLoad",
+                "using": "Preload",
+                "sequence": 1,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 0,
+                        "x": 0,
+                        "y": 0,
+                        "sequence": 1
+                    }
+                ]
+            },
+            {
+                "id": "load",
+                "using": "Cal",
+                "sequence": 2,
+                "sanityCheckToleranceLowerOffset": 5,
+                "sanityCheckToleranceUpperOffset": 5,
+                "stabilityCriterion": {
+                    "@type": "CriterionGram"
+                },
+                "weightSpecifications": [
+                    {
+                        "@type": "WeightSpecificationHand",
+                        "nominalValue": 2E+2,
+                        "x": 0,
+                        "y": 0,
+                        "sequence": 1
+                    }
+                ]
+            }
+        ]
+    }
+}'/>
+            <where>name = 'RoutineParameterCalibration'</where>
+        </update>
+
+    </changeSet>
+</databaseChangeLog>

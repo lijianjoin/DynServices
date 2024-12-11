@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Creates the product type master data table -->
+    <changeSet author="ismart2" id="master-data-parameters-process-v0.0.1">
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="446745bc-1b15-49e7-b151-afa503d5c199"/>
+            <column name="process_template_id" value="0cebba3a-6aab-408e-aa2e-c93d1ce8c3e4"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="1716793c-7ffd-4b0f-86eb-921cd3d867e1"/>
+            <column name="process_template_id" value="74142601-c8fc-41e4-93fe-b09dc0919089"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="2f4911b4-f3bd-483e-95a0-0f1a6274df04"/>
+            <column name="process_template_id" value="b20b3766-7e7f-41e8-b420-ebc8ec13473a"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="f6309ba6-fad2-4535-9337-77d0c861ba9d"/>
+            <column name="process_template_id" value="dd6a2d35-08fa-4fd5-bb77-cd1f2b1d1c2d"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="8d0f82fc-f63f-43dc-8435-6d55bbc7d531"/>
+            <column name="process_template_id" value="0de4c5ed-534c-49f6-a233-3ef54d2163db"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+        <insert schemaName="product_type_schema" tableName="parameters_template">
+            <column name="id" value="6cdee569-bed0-4653-8506-d78a1979c45f"/>
+            <column name="process_template_id" value="973d3b5d-835c-41e0-99c6-e70add2dd840"/>
+            <column name="name" value="ToBeDefined_processTemplateParameterName"/>
+            <column name="description"
+              value="Parameter for processTemplates. To be discussed if one Parameter per productType is needed or if there are more general forms."/>
+            <column name="values" value='{"type": "ToBeDefined", "value": ""}'/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

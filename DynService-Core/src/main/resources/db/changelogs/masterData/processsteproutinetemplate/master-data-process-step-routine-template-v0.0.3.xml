@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- Creates the product type master data table -->
+    <changeSet author="ismart2" id="master-data-process-step-routine-template-v0.0.3">
+
+        <update tableName="process_step_routine_template" schemaName="product_type_schema">
+            <column name="name" value="REQUEST_SYSTEM_NUMBER"/>
+            <where>name = 'REQUEST_SYSTEM_BODY_NUMBER'</where>
+        </update>
+
+    </changeSet>
+</databaseChangeLog>

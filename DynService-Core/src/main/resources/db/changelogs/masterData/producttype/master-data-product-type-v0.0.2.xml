@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+  <!-- Creates the product type master data table -->
+  <changeSet author="ismart2" id="master-data-process-type-v0.0.2">
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="CUSTOMER"/>
+      <where>id = '85c0aeb8-9773-4e98-a792-326e901ad170'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="CUSTOMER"/>
+      <where>id = '6e25077e-27f6-4888-96e4-051374a8aa84'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="CUSTOMER"/>
+      <where>id = 'c5287fa0-4a8a-4e16-9241-ba1f3e849fd3'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="MODULE"/>
+      <where>id = 'c0d85fbb-c6af-4174-98ae-455ab2c8605f'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="MODULE"/>
+      <where>id = 'df957133-c512-4ca3-8e49-0ac542bd7f55'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="MODULE"/>
+      <where>id = '1ba57886-3990-4faf-8be5-8cb37e666142'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="MODULE"/>
+      <where>id = 'f5f39662-85dc-45d9-a16f-0aa4704e028e'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="MODULE"/>
+      <where>id = 'f6153b49-70ab-482c-a982-907fbe1e536c'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'a272e848-4211-4b5d-bbc8-f7e38eb36b7b'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '86d064ab-7a4a-4c28-87a5-74468bde7d00'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '8f45c642-0e26-4dfe-bd8b-dfbf8351b4c0'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '947445e9-3e26-4bb8-8966-af2c52859e0b'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'ebb379b6-bf3c-4761-a36c-667aa0835c08'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'e05d28ef-54de-4632-b0a8-902b5936d2a0'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'f10f489e-e72c-495e-b35e-45286151715f'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '959832df-209c-4715-88fd-781290195a8a'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '1f144143-042b-4dac-a1b5-a26ca49ffb86'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '235555ad-862f-4b57-92d2-ddd5ecd870a3'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '41416962-7d1a-45c6-bbf9-42b9da2c53e5'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'bfab0049-12fd-4aa7-b45d-9a8adb4df79f'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '6149e8ba-b338-4521-a136-e2d6d86d285f'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '4b87abd4-4f54-447c-8f66-3bd7fbe9f8ed'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '07afa05f-2182-4388-9225-2f470593c7c9'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'eb3d04a6-c800-4755-8c4f-e27100a0355c'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '6b9b688b-7818-4b74-99c3-db0dbb551cf3'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'dfc1d117-c9e3-46e8-9704-814dac4428cd'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '23c57673-4a5f-4d75-92f7-c92ccc1cc904'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'f060a028-fadf-4c0a-a99d-01f9c785979a'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '59cb72f4-fd9d-43f5-ba49-d7a91208f7e9'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'a6dca7c5-ad38-460c-b0a3-83ae966aa5e9'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '14fa76d8-0a21-4392-a970-39e16b50c05e'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'ababb0ba-a1ee-4c66-8283-0fa7f84d3bc9'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '74920123-468d-4078-9961-1a472f8cbcd3'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'b25358b2-ce50-43b4-9b3b-175e67490131'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = 'c8a1eff2-08fb-428a-bab3-8bd32cbef8fc'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '4ac4b07c-a5a4-48f3-8715-64f8bfe1b9ab'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '077da42d-9144-43d3-b2d8-0cf7e4a350cb'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '707733da-95b0-4c7a-bb5d-940c3f316fdc'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '7a2436bd-a186-4b53-9887-2d00d011bf1e'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '3a02953d-76b9-4aa3-a37e-d0521e777b77'</where>
+    </update>
+
+    <update schemaName="product_type_schema" tableName="product_type">
+      <column name="type" value="SYSTEM"/>
+      <where>id = '8048ccb4-63e7-4cc7-a4fa-a8e237a22c85'</where>
+    </update>
+
+
+  </changeSet>
+</databaseChangeLog>

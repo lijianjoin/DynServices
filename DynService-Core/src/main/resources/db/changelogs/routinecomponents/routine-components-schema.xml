@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="routine-components-schema-v0.0.1" author="ismart2">
+        <!-- TABLE: Data Points -->
+        <createTable remarks="Data Points created in routines"
+                     schemaName="routine_components"
+                     tableName="data_points">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="quantity_value" type="numeric">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="quantity_unit" type="varchar(255)">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="measurement_timestamp" type="timestamp with time zone">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="routine-components-schema-v0.0.2" author="ismart2">
+        <!-- RENAME COLUMN: Data Point timestamp -->
+        <renameColumn
+                schemaName="routine_components"
+                tableName="data_points"
+                oldColumnName="measurement_timestamp"
+                newColumnName="measured_at"
+                columnDataType="timestamp with time zone"/>
+
+        <!-- TABLE: Calculations -->
+        <createTable remarks="Calculations created in routines"
+                     schemaName="routine_components"
+                     tableName="calculations">
+            <column name="id" type="uuid">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="quantity_value" type="numeric">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="quantity_unit" type="varchar(255)">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+            <column name="calculated_at" type="timestamp with time zone">
+                <constraints nullable="false" primaryKey="false"/>
+            </column>
+        </createTable>
+
+        <!-- TABLE: Mapping Data Point <> Calculation -->
+        <createTable remarks="Mapping for Data Point and Calculation"
+                     schemaName="routine_components"
+                     tableName="mapping_datapoints_calculations">
+            <column name="data_point_id" type="uuid">
+                <constraints nullable="false" />
+            </column>
+            <column name="calculation_id" type="uuid">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <!-- FOREIGN KEY: Data Point for Mapping Data Point <> Calculation -->
+        <addForeignKeyConstraint
+            baseColumnNames="data_point_id"
+            baseTableName="mapping_datapoints_calculations"
+            baseTableSchemaName="routine_components"
+            constraintName="fk_mapping_data_point"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            onUpdate="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="data_points"
+            referencedTableSchemaName="routine_components"
+            validate="true"/>
+
+        <!-- FOREIGN KEY: Calculation for Mapping Data Point <> Calculation -->
+        <addForeignKeyConstraint
+            baseColumnNames="calculation_id"
+            baseTableName="mapping_datapoints_calculations"
+            baseTableSchemaName="routine_components"
+            constraintName="fk_mapping_calculation"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            onUpdate="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="calculations"
+            referencedTableSchemaName="routine_components"
+            validate="true"/>
+
+        <!-- TABLE: Mapping Calculation <> Calculation -->
+        <createTable remarks="Mapping for Calculation and Calculation"
+                     schemaName="routine_components"
+                     tableName="mapping_calculations_calculations">
+            <column name="calculation_id_parent" type="uuid">
+                <constraints nullable="false" />
+            </column>
+            <column name="calculation_id_child" type="uuid">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <!-- FOREIGN KEY: Calculation parent for Mapping Calculation <> Calculation -->
+        <addForeignKeyConstraint
+            baseColumnNames="calculation_id_parent"
+            baseTableName="mapping_calculations_calculations"
+            baseTableSchemaName="routine_components"
+            constraintName="fk_mapping_calculation_parent"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            onUpdate="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="calculations"
+            referencedTableSchemaName="routine_components"
+            validate="true"/>
+
+        <!-- FOREIGN KEY: Calculation child for Mapping Calculation <> Calculation -->
+        <!-- Replaced onDelete="CASCADE" and onUpdate="CASCADE" with "NO ACTION" to avoid cyclic behaviour-->
+        <addForeignKeyConstraint
+            baseColumnNames="calculation_id_child"
+            baseTableName="mapping_calculations_calculations"
+            baseTableSchemaName="routine_components"
+            constraintName="fk_mapping_calculation_child"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedColumnNames="id"
+            referencedTableName="calculations"
+            referencedTableSchemaName="routine_components"
+            validate="true"/>
+    </changeSet>
+
+    <changeSet id="routine-components-schema-v0.0.3" author="ismart2">
+        <!-- RENAME Again: this will be reverted within mock-routine-components again-->
+        <renameColumn
+                schemaName="routine_components"
+                tableName="data_points"
+                oldColumnName="measured_at"
+                newColumnName="measurement_timestamp"
+                columnDataType="timestamp with time zone"/>
+    </changeSet>
+
+
+</databaseChangeLog>

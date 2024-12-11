@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="ismart2">
+        <preConditions onFail="CONTINUE">
+            <dbms type="mssql"/>
+        </preConditions>
+        <sqlFile path="db/sql/init/mssql/01_ismart-init-mssql.sql"/>
+    </changeSet>
+
+    <changeSet id="2" author="ismart2">
+        <preConditions onFail="CONTINUE">
+            <dbms type="postgresql"/>
+        </preConditions>
+        <sqlFile path="db/sql/init/psql/01_ismart-init-psql.sql"/>
+        <sqlFile path="db/sql/init/psql/02_assux_bpi_weight.sql"/>
+        <sqlFile path="db/sql/init/psql/03_kopa.sql"/>
+        <sqlFile path="db/sql/init/psql/04_grant_sequence_privileges.sql"/>
+        <sqlFile path="db/sql/init/psql/05_prozer.sql"/>
+        <sqlFile path="db/sql/init/psql/06_routine-components.sql"/>
+    </changeSet>
+
+    <includeAll path="db/changelogs/workplace"/>
+    <includeAll path="db/changelogs/productType"/>
+    <includeAll path="db/changelogs/product"/>
+    <includeAll path="db/changelogs/serviceregister"/>
+    <includeAll path="db/changelogs/routinecomponents"/>
+    <includeAll path="db/changelogs/masterData/workplacetype"/>
+    <includeAll path="db/changelogs/masterData/availableroutines"/>
+    <includeAll path="db/changelogs/masterData/producttype"/>
+    <includeAll path="db/changelogs/masterData/processtemplate"/>
+    <includeAll path="db/changelogs/masterData/processsteptemplate"/>
+    <includeAll path="db/changelogs/masterData/processsteproutinetemplate"/>
+    <includeAll path="db/changelogs/masterData/parameters"/>
+
+</databaseChangeLog>

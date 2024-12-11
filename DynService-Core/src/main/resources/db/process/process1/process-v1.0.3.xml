@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ################################# -->
+<!-- This file should not exist here. Having the schema in this folder (process) -->
+<!-- is only done to adhere to the existing structure. It has nothing to do with process, -->
+<!-- but the existing structure assumes that everything in "process" is used to initialize -->
+<!-- schemas/tables. It was decided that these new schemas should also be put here, even though -->
+<!-- they have nothing to do with it. -->
+<!-- Hopefully a future story will clean this up. -->
+<!-- See https://dev.azure.com/sartorius/lps_ismart/_workitems/edit/14378 -->
+<!-- ################################# -->
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="process-v1.0.3" author="ismart2">
+        <preConditions onFail="CONTINUE">
+            <dbms type="mssql"/>
+        </preConditions>
+        <sqlFile path="db/sql/init/mssql/06_routine-components.sql"/>
+    </changeSet>
+</databaseChangeLog>

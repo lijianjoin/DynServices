@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+
+    <changeSet author="ismart2" id="master-data-available-routines-v0.0.7">
+
+        <insert schemaName="available_routines" tableName="available_routines">
+            <column name="id" value="35ddb5fb-666a-4a54-8091-2a737e8c5e17"/>
+            <column name="name" value="WRITE_MODULE_SERIAL_NUMBERS"/>
+            <column name="version" value="0.0.1"/>
+            <column name="type" value="CONFIGURATION"/>
+            <column name="description" value=""/>
+            <column name="workplace_type_id" value="214bd598-affe-4137-ae06-8e9794df4539"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

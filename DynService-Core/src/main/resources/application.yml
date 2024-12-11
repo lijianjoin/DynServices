@@ -1,25 +1,52 @@
+---
 spring:
+  profiles:
+    active: local
   application:
-    name: immobilien-management
+    name: ismart2-serviceregistry
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    ismart2:
+      url: ${DB_ISMART_URL}
+      username: ${DB_ISMART_USER_APP}
+      password: ${DB_ISMART_PASSWORD_APP}
+    liquibase:
+      url: ${DB_ISMART_URL}
+      username: ${DB_ISMART_USER_LIQUIBASE}
+      password: ${DB_ISMART_PASSWORD_LIQUIBASE}
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog-without-mockdata.xml
+
+server:
+  port: 8080
+
+management:
+  endpoint.health:
+    show-details: always
+    group:
+      readiness:
+        include: db
+    probes:
+      enabled: true
+  server:
+    port: 8081
 
 logging:
   level:
-    '[com.sartorius.ismart.demo]': TRACE
+    com.sartorius.ismart2: INFO
+    org.hibernate.orm: INFO
+    org.hibernate.SQL: INFO
     root: INFO
 
 remoteService:
   serviceProvider:
-    groupId: com.dynsers.dynservice
+    groupId: com.sartorius.ismart2
+    protocol: https
     resourceId: register
     resourceVersion: 0.0.1
-    context-path: remoteservice
-
-  server:
-    groupId: com.dynsers.dynservice
-    resourceId: register
-    resourceVersion: 0.0.1
-    serviceVersion: 0.0.1
-    url: http://localhost:9081/remoteservice/
-
-server:
-  port: 9080
+    serviceLocation: central
+    context-path: ismart2
