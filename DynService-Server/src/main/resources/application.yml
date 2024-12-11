@@ -6,10 +6,18 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:postgresql://localhost:5432/dynserviceregister
-    username: register
-    password: register
-    driverClassName: org.postgresql.Driver
+    ismart2:
+      url: jdbc:postgresql://localhost:5432/dynsers
+      username: serviceregister
+      password: register
+    liquibase:
+      url: jdbc:postgresql://localhost:5432/dynsers
+      username: postgres
+      password: postgres
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog.xml
+    driver-class-name: org.postgresql.Driver
 
 logging:
   level:
@@ -19,8 +27,10 @@ logging:
 remoteService:
   serviceProvider:
     groupId: com.dynsers.dynservice
+    protocol: http
     resourceId: register
     resourceVersion: 0.0.1
+    serviceLocation: central
     context-path: remoteservice
 
 

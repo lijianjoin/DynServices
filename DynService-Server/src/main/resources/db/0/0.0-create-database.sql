@@ -1,13 +1,8 @@
+CREATE USER serviceregister with PASSWORD 'register';
 
-CREATE TABLE "dynservice-register"."dynservice_provider"(
-    id                   SERIAL PRIMARY KEY,
-    uri                  VARCHAR(255) NOT NULL,
-    groupid              VARCHAR(255) NOT NULL,
-    resourceid           VARCHAR(255) NOT NULL,
-    serviceid            VARCHAR(255) NOT NULL,
-    resource_version     VARCHAR(255) NOT NULL,
-    service_version      VARCHAR(255) NOT NULL,
-    uuid                 VARCHAR(255) NOT NULL,
-    additional_info      VARCHAR(255) NOT NULL,
-    detection_interval   INTEGER NOT NULL
-);
+CREATE SCHEMA service_register;
+
+GRANT ALL PRIVILEGES ON SCHEMA service_register to serviceregister;
+
+ALTER DEFAULT PRIVILEGES FOR USER postgres IN SCHEMA service_register GRANT ALL ON TABLES TO serviceregister
+

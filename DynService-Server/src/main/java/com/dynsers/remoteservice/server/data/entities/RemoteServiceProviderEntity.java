@@ -10,10 +10,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "service_provider", schema = "service-register")
+@Table(name = "dynservice_provider", schema = "service_register")
 @Accessors(chain = true)
 public class RemoteServiceProviderEntity {
 
@@ -56,4 +58,7 @@ public class RemoteServiceProviderEntity {
 
     @Column(name = "additional_info")
     private String additionalInfo;
+
+    @Column(name = "last_check")
+    private Date lastCheck;
 }

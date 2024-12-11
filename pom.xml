@@ -31,6 +31,7 @@
         <juniper.version>5.10.1</juniper.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <liquibase.version>4.25.1</liquibase.version>
+        <postgresql.version>42.7.4</postgresql.version>
     </properties>
 
     <dependencyManagement>
@@ -78,6 +79,12 @@
                 <artifactId>awaitility</artifactId>
                 <version>${awaility.version}</version>
                 <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
 
             <dependency>
