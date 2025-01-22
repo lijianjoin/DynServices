@@ -14,7 +14,7 @@ remoteService:
     resourceId: testService
     resourceVersion: 0.0.1
     context-path: dynservice
-    hostname: localhost:9080
+    hostname: localhost
     serviceLocation: local-test
 
   server:

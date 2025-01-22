@@ -30,6 +30,7 @@ import java.io.Serializable;
 @Data
 public class RemoteServiceId implements Serializable {
 
+    private Integer id;
     private String groupId = "";
     private String resourceId = "";
     private String resourceVersion = "";

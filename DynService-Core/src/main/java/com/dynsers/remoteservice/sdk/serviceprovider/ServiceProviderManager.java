@@ -62,6 +62,7 @@ public class ServiceProviderManager {
             url = "${remoteService.server.url}")
     private RemoteServiceRegistry remoteServiceRegister;
 
+
     public ServiceProviderManager(
             ServiceProviderRegistrantService registrantService,
             @Qualifier("rsServiceProviderProperties") RemoteServiceProviderProperties providerProperties) {
@@ -157,9 +158,10 @@ public class ServiceProviderManager {
 
     private String getServiceProviderUrl() {
         return String.format(
-                "%s://%s/%s/%s/%s/",
+                "%s://%s:%d/%s/%s/%s/",
                 providerProperties.getProtocol(),
                 providerProperties.getHostname(),
+                serverPort,
                 providerProperties.getContextPath(),
                 providerProperties.getResourceId(),
                 providerProperties.getResourceVersion());

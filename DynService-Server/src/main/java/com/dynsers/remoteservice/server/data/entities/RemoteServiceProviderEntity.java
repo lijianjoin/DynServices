@@ -1,8 +1,8 @@
 /*
 
-* Author: Jian Li, jian.li1@sartorius.com
+ * Author: Jian Li, jian.li1@sartorius.com
 
-*/
+ */
 package com.dynsers.remoteservice.server.data.entities;
 
 import jakarta.persistence.*;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -60,5 +60,8 @@ public class RemoteServiceProviderEntity {
     private String additionalInfo;
 
     @Column(name = "last_check")
-    private Date lastCheck;
+    private LocalDateTime lastCheck;
+
+    @Column(name = "register_timestamp")
+    private LocalDateTime registerTimestamp;
 }

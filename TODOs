@@ -1,7 +1,8 @@
 
 
-1. 读取spring boot server的port作为设置参数，那个hostname可以省去port设置
-
+-> 1. 读取spring boot server的port作为设置参数，那个hostname可以省去port设置
+-> 2. 加入首次注册时间
+3. 加入上次检测时间
 
 
 2. 删去一些不需要的函数
