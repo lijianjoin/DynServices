@@ -1,0 +1,12 @@
+
+
+1. 读取spring boot server的port作为设置参数，那个hostname可以省去port设置
+
+
+
+2. 删去一些不需要的函数
+3. 加入新的设置参数，如果是不需要encoding，则直接输出或者接受json
+
+
+
+10. 重新将ServiceProviderController移入serviceprovider package中，他妈的Patrick，根本就是个白痴，不明白项目结构就瞎几把写需求。

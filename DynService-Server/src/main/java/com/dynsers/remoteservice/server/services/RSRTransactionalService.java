@@ -1,8 +1,8 @@
 /*
 
-* Author: Jian Li, jian.li1@sartorius.com
+ * Author: Jian Li, jian.li1@sartorius.com
 
-*/
+ */
 package com.dynsers.remoteservice.server.services;
 
 import com.dynsers.remoteservice.data.RemoteServiceId;
@@ -59,10 +59,14 @@ public class RSRTransactionalService {
 
     @Transactional
     public void forceRegisterServiceProvider(RemoteServiceId serviceId) {
-        checkServiceIdExistance(serviceId);
-        RemoteServiceProviderEntity entity = mapper.toEntity(serviceId);
-        RegisterContainer.getServiceIdContainer().storeServiceId(serviceId);
-        serviceProviderRepo.save(entity);
+        try {
+            checkServiceIdExistance(serviceId);
+            RemoteServiceProviderEntity entity = mapper.toEntity(serviceId);
+            RegisterContainer.getServiceIdContainer().storeServiceId(serviceId);
+            serviceProviderRepo.save(entity);
+        } catch (RemoteServiceServiceAlreadyRegisterException e) {
+            throw e;
+        }
     }
 
     private void checkServiceIdExistance(RemoteServiceId serviceId) {
@@ -76,7 +80,6 @@ public class RSRTransactionalService {
         } catch (RemoteServiceServiceNotRegisterException e) {
             log.debug("No Service Provider found, continue to register");
         }
-        RemoteServiceProviderEntity entity = mapper.toEntity(serviceId);
     }
 
     @Transactional

@@ -17,20 +17,21 @@
 package com.dynsers.remoteservice.sdk.serviceprovider;
 
 import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.remoteservice.annotations.ServiceProvider;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.enums.ServiceProviderTypes;
 import com.dynsers.remoteservice.exceptions.RemoteServiceException;
-import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
-import com.dynsers.remoteservice.annotations.ServiceProvider;
-import com.dynsers.remoteservice.sdk.configuration.RemoteServiceProviderProperties;
 import com.dynsers.remoteservice.exceptions.RemoteServiceRegisteException;
+import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
 import com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver;
+import com.dynsers.remoteservice.sdk.configuration.RemoteServiceProviderProperties;
 import com.dynsers.remoteservice.sdk.serviceconsumer.RemoteServiceProxy;
 import com.dynsers.remoteservice.sdk.sharedutils.SpringContextUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
@@ -48,10 +49,9 @@ public class ServiceProviderManager {
     private final RemoteServiceId baseServiceId;
 
     private final ServiceProviderRegistrantService registrantService;
-
+    private final RemoteServiceProviderProperties providerProperties;
     @Value("${server.port}")
     private int serverPort;
-
     @RemoteService(
             groupId = "${remoteService.server.groupId}",
             resourceId = "${remoteService.server.resourceId}",
@@ -61,8 +61,6 @@ public class ServiceProviderManager {
             serviceLocation = "${remoteService.server.serviceLocation}",
             url = "${remoteService.server.url}")
     private RemoteServiceRegistry remoteServiceRegister;
-
-    private final RemoteServiceProviderProperties providerProperties;
 
     public ServiceProviderManager(
             ServiceProviderRegistrantService registrantService,
@@ -88,7 +86,10 @@ public class ServiceProviderManager {
             Map<String, Object> beans = SpringContextUtils.getContext().getBeansWithAnnotation(ServiceProvider.class);
             beans.forEach((key, value) -> {
                 var serviceId = new RemoteServiceId(this.getBaseServiceId());
-                ServiceProvider provider = value.getClass().getAnnotation(ServiceProvider.class);
+
+                Class<?> targetClass = AopProxyUtils.ultimateTargetClass(value);
+
+                ServiceProvider provider = targetClass.getAnnotation(ServiceProvider.class);
                 serviceId.setUuid(
                         StringUtils.isEmpty(provider.uuid()) ? String.valueOf(UUID.randomUUID()) : provider.uuid());
                 serviceId.setDetectionInterval(provider.detectionInterval());
@@ -102,7 +103,7 @@ public class ServiceProviderManager {
                         serviceId.setUri(url);
                         storeServiceProvider(serviceId, value, provider.type());
                     } else {
-                        Class<?>[] interfaces = getFirstDefinedInterfaces(value.getClass());
+                        Class<?>[] interfaces = getFirstDefinedInterfaces(targetClass);
                         for (Class<?> inter : interfaces) {
                             String interfaceName = inter.getName();
                             var newId = new RemoteServiceId(serviceId);

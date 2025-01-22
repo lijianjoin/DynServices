@@ -19,11 +19,13 @@ package com.dynsers.remoteservice.sdk.configuration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @ComponentScan(basePackages = {"com.dynsers.remoteservice.sdk",
         "com.dynsers.remoteservice.utils"})
 @EnableConfigurationProperties(RemoteServiceRegistryProperties.class)
+@EnableScheduling
 public class RemoteServiceProviderConfig {
- 
+
 }

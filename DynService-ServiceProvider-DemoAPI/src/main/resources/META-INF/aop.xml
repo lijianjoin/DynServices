@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.dynsers.demo.dynservice.demoapi.test.SecuredMethodAspect"/>
+        <weaver options="-verbose -showWeaveInfo">
+            <include within="com.dynsers.demo.dynservice.demoapi.test.*"/>
+        </weaver>
+    </aspects>
+</aspectj>

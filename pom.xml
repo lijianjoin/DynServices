@@ -12,9 +12,10 @@
     <modules>
         <module>DynService-Core</module>
         <module>DynService-Server</module>
+        <module>DynService-ServiceProvider-DemoAPI</module>
         <module>DynService-ServiceProvider-Demo</module>
         <module>DynService-Client-Example</module>
-        <module>DynService-ServiceProvider-DemoAPI</module>
+
         <module>DynService-Client-Spring-Example</module>
     </modules>
 
@@ -24,7 +25,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.version>3.12.1</maven.compiler.version>
         <awaility.version>4.2.0</awaility.version>
-        <spring.boot.version>3.3.2</spring.boot.version>
+        <spring.boot.version>3.4.1</spring.boot.version>
+        <spring.framework.version>6.2.0</spring.framework.version>
         <lombok.version>1.18.34</lombok.version>
         <jackson.version>2.17.2</jackson.version>
         <apache.commons.version>3.12.0</apache.commons.version>
@@ -52,6 +54,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.framework.version}</version>
             </dependency>
 
             <dependency>
