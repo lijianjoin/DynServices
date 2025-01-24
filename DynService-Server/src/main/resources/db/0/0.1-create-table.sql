@@ -1,4 +1,4 @@
-CREATE TABLE "service_register"."dynservice_provider"
+CREATE TABLE "dyn_service_register"."dynservice_provider"
 (
     id                 SERIAL PRIMARY KEY,
     uri                VARCHAR(255) NOT NULL,
