@@ -1,24 +1,28 @@
 spring:
   application:
-    name: immobilien-management
+    name: demo-application
 
 logging:
   level:
-    root: TRACE
-    com.dynsers.remoteservice: TRACE
+    root: info
+    com.dynsers: debug
 
 remoteService:
   serviceProvider:
+    protocol: http
     groupId: com.dynsers.dynservice
     resourceId: testService
     resourceVersion: 0.0.1
     context-path: dynservice
     hostname: localhost
+    serviceLocation: local-test
 
   server:
+    scanInterval: 1000
     groupId: com.dynsers.dynservice
     resourceId: register
     resourceVersion: 0.0.1
+    serviceName: RemoteServiceRegistry
     serviceVersion: 0.0.1
     url: http://localhost:9081/remoteservice/register/0.0.1/
 

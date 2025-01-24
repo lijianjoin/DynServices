@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: remoteservice-server
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:
+    ismart2:
+      url: jdbc:postgresql://localhost:5432/dynsers
+      username: serviceregister
+      password: register
+    liquibase:
+      url: jdbc:postgresql://localhost:5432/dynsers
+      username: postgres
+      password: postgres
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog.xml
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    com.dynsers.remoteservice: DEBUG
+    root: INFO
+
+remoteService:
+  serviceProvider:
+    groupId: com.dynsers.dynservice
+    protocol: http
+    resourceId: register
+    resourceVersion: 0.0.1
+    serviceLocation: central
+    context-path: remoteservice
+
+
+server:
+  port: 9081
