@@ -11,6 +11,9 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+interface TestInterface {
+}
+
 class RemoteServiceProxyTest {
 
     @Test
@@ -18,7 +21,7 @@ class RemoteServiceProxyTest {
 
         TestClassA a = new TestClassA();
         TestClassA b = new TestClassA();
-        RemoteServiceId remoteServiceId = new RemoteServiceId(
+        RemoteServiceId remoteServiceId = new RemoteServiceId(1,
                 "groupId",
                 "resourceId",
                 "resourceVersion",
@@ -49,5 +52,3 @@ class RemoteServiceProxyTest {
 class TestClassA {
     private TestInterface test;
 }
-
-interface TestInterface {}
