@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:DynService-Client-Example/src/test/java/com/dynsers/remoteservice/SpringRemoteFramework/Caller/AppTest.java
-package com.dynsers.remoteservice.SpringRemoteFramework.Caller;
-========
-package com.dynsers.core.SpringRemoteFramework.Caller;
->>>>>>>> master:DynService-Client-Example/src/test/java/com/dynsers/core/SpringRemoteFramework/Caller/AppTest.java
+package com.dynsers.webflux;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

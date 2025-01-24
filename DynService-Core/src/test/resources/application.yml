@@ -1,16 +1,19 @@
 remoteService:
   serviceProvider:
-    groupId: com.dynsers.dynservice
+    groupId: com.sartorius.dynservice
     resourceId: register
     resourceVersion: 0.0.1
     context-path: remoteservice
   server:
-    groupId: com.dynsers.dynservice
+    groupId: com.sartorius.dynservice
     resourceId: register
     resourceVersion: 0.0.1
     serviceVersion: 0.0.1
+    serviceName: RemoteServiceRegistry
     url: http://localhost:9081/remoteservice/register/0.0.1/
 
 
 testYaml:
   testKey: 1
+
+name: test
