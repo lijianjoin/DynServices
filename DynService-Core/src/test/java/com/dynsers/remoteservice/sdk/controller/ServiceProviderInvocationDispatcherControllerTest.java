@@ -129,7 +129,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     }
 
     @Test
-    void getMethod_withValidMethod_returnsMethod() throws Exception {
+    void getMethod_withValidMethod_returnsMethodForJAVARMI() throws Exception {
         RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("getPropertyValue");
         request.setParameterTypes(new Class<?>[] {String.class});
@@ -143,7 +143,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     }
 
     @Test
-    void getMethod_withNullRequest_throwsRequestErrorException() {
+    void getMethod_ForJAVARMI_withNullRequest_throwsRequestErrorException() {
         RemoteServiceRequestErrorException exception = assertThrows(
                 RemoteServiceRequestErrorException.class,
                 () -> ReflectionTestUtils.invokeMethod(controller, "getMethod", null, Object.class));
@@ -152,7 +152,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     }
 
     @Test
-    void getMethod_withEmptyMethodName_throwsRequestErrorException() {
+    void getMethod_withEmptyMethodForJAVARMIName_throwsRequestErrorException() {
         RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("");
 
@@ -164,7 +164,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     }
     //
     @Test
-    void getMethod_withNoSuchMethod_throwsRequestErrorException() throws ClassNotFoundException {
+    void getMethod_withNoSuchMethod_ForJAVARMI_throwsRequestErrorException() throws ClassNotFoundException {
         RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("nonExistentMethod");
         request.setParameterTypes(new Class<?>[] {String.class});
@@ -179,7 +179,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     }
     //
     @Test
-    void getMethod_withReserveMethod_returnsNull() throws Exception {
+    void getMethod_withReserveMethod_ForJAVARMI_returnsNull() throws Exception {
         RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("reserveMethod");
         request.setParameterTypes(new Class<?>[] {String.class});
@@ -201,7 +201,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
         request.setMethod("getPropertyValue");
         Serializable[] parameterValues = new Serializable[] {"remoteService.serviceProvider.groupId"};
         Class<?>[] parameterTypes = new Class<?>[] {String.class};
-        request.setParameterValues(parameterValues);
+        request.setParameterSerializableValues(parameterValues);
         request.setParameterTypes(parameterTypes);
         return request;
     }

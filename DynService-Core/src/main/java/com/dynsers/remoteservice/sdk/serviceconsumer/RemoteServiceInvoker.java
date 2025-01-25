@@ -19,6 +19,7 @@ package com.dynsers.remoteservice.sdk.serviceconsumer;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.data.RemoteServiceMethodRequest;
 import com.dynsers.remoteservice.data.RemoteServiceMethodResponse;
+import com.dynsers.remoteservice.enums.RequestSource;
 import com.dynsers.remoteservice.exceptions.RemoteServiceResponseErrorException;
 import com.dynsers.remoteservice.exceptions.RemoteServiceInvocationException;
 import com.dynsers.remoteservice.utils.SerializableConverterUtils;
@@ -47,8 +48,9 @@ public class RemoteServiceInvoker {
                 serviceId.getServiceVersion(),
                 serviceId.getServiceName(),
                 serviceId.getUuid(),
+                RequestSource.RMI_JAVA,
                 parameterTypes,
-                serialArgs);
+                serialArgs, null);
         log.debug(remoteServiceRequest.toString());
         var objectMapper = new ObjectMapper();
 

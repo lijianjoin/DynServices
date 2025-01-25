@@ -2,6 +2,7 @@ package com.dynsers.dynservice.demo.service;
 
 import com.dynsers.demo.dynservice.demoapi.api.TestInterface;
 import com.dynsers.demo.dynservice.demoapi.api.UnknowParameterException;
+import com.dynsers.demo.dynservice.demoapi.data.ComplexParameter;
 import com.dynsers.remoteservice.annotations.ServiceProvider;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,21 @@ import org.springframework.stereotype.Service;
 public class TestInterfaceImpl implements TestInterface {
 
 
+
     @Override
     public String getSampleString() {
         return "Here is the string from the remote service";
+    }
+
+    @Override
+    public String testIncomingMethod(String input) {
+        System.out.println("The input is: " + input);
+        return "";
+    }
+
+    @Override
+    public String testMethodWithComplexParameter(ComplexParameter complexParameter) {
+        return "function finish";
     }
 
     @Override

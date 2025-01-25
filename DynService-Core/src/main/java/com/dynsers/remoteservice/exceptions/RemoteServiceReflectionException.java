@@ -1,4 +1,3 @@
-
 /*
  *  Copyright "2024", Jian Li
  *
@@ -28,5 +27,4 @@ public class RemoteServiceReflectionException extends RemoteServiceException {
         super(e.getMessage());
         originalException = e;
     }
-
 }

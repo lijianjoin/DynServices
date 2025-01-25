@@ -18,7 +18,6 @@ remoteService:
     serviceLocation: local-test
 
   server:
-    scanInterval: 1000
     groupId: com.dynsers.dynservice
     resourceId: register
     resourceVersion: 0.0.1

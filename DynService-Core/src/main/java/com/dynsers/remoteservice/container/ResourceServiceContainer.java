@@ -1,4 +1,3 @@
-
 /*
  *  Copyright "2024", Jian Li
  *
@@ -32,7 +31,6 @@ public class ResourceServiceContainer {
 
     private Map<String, ServiceNameContainer> serviceContainer = new HashMap<>();
 
-
     public ServiceNameContainer getServices(String serviceKey) {
         return serviceContainer.get(serviceKey);
     }
@@ -47,13 +45,14 @@ public class ResourceServiceContainer {
         synchronized (serviceContainer) {
             services = serviceContainer.get(serviceKey);
             if (null == services) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         return services;
     }
 
-    public void storeService(RemoteServiceId serviceId){
+    public void storeService(RemoteServiceId serviceId) {
         String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
         ServiceNameContainer serviceNameContainer;
         synchronized (serviceContainer) {
@@ -78,16 +77,16 @@ public class ResourceServiceContainer {
         ServiceNameContainer services;
         synchronized (serviceContainer) {
             services = serviceContainer.get(serviceKey);
-            if(null == services) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            if (null == services) {
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        synchronized(services) {
+        synchronized (services) {
             result.addAll(services.getAllServiceId());
         }
         return result;
     }
-
 
     public RemoteServiceId getServiceId(RemoteServiceId serviceId) {
         String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
@@ -107,7 +106,7 @@ public class ResourceServiceContainer {
         RemoteServiceId result;
         synchronized (serviceContainer) {
             services = serviceContainer.get(serviceKey);
-            if(null == services) {
+            if (null == services) {
                 return null;
             }
         }
@@ -116,5 +115,4 @@ public class ResourceServiceContainer {
         }
         return result;
     }
-
 }

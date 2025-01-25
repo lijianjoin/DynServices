@@ -31,7 +31,6 @@ public class GroupServiceContainer {
 
     private Map<String, ResourceServiceContainer> resourceServiceContainer = new HashMap<>();
 
-
     public ResourceServiceContainer getResourceServices(String groupKey) {
         return resourceServiceContainer.get(groupKey);
     }
@@ -46,13 +45,14 @@ public class GroupServiceContainer {
         synchronized (resourceServiceContainer) {
             services = resourceServiceContainer.get(groupKey);
             if (null == services) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         return services;
     }
 
-    public void storeService(RemoteServiceId serviceId){
+    public void storeService(RemoteServiceId serviceId) {
         String groupResourceKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
         ResourceServiceContainer resourceServices;
         synchronized (resourceServiceContainer) {
@@ -79,16 +79,16 @@ public class GroupServiceContainer {
         ResourceServiceContainer services;
         synchronized (resourceServiceContainer) {
             services = resourceServiceContainer.get(groupKey);
-            if(null == services) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            if (null == services) {
+                throw new RemoteServiceServiceNotRegisterException(
+                        "Service not found: " + RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        synchronized(services) {
+        synchronized (services) {
             result.addAll(services.getAllServiceId());
         }
         return result;
     }
-
 
     public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId) {
         List<RemoteServiceId> result = new LinkedList<>();
@@ -96,16 +96,16 @@ public class GroupServiceContainer {
         ResourceServiceContainer services;
         synchronized (resourceServiceContainer) {
             services = resourceServiceContainer.get(groupKey);
-            if(null == services) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            if (null == services) {
+                throw new RemoteServiceServiceNotRegisterException(
+                        "Service not found: " + RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
-        synchronized(services) {
+        synchronized (services) {
             result.addAll(services.getAllServiceIdsInServiceId(serviceId));
         }
         return result;
     }
-
 
     public RemoteServiceId getServiceId(RemoteServiceId serviceId) {
         String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
@@ -113,7 +113,7 @@ public class GroupServiceContainer {
             ResourceServiceContainer res = this.resourceServiceContainer.get(groupKey);
             if (null == res) {
                 throw new RemoteServiceServiceNotRegisterException(
-                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                        "Service not found: " + RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             return res.getServiceId(serviceId);
         }
@@ -127,7 +127,6 @@ public class GroupServiceContainer {
             if (null == services) {
                 return null;
             }
-
         }
         synchronized (services) {
             return services.deleteServiceId(serviceId);

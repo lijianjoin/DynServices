@@ -28,7 +28,7 @@
         <spring.boot.version>3.4.1</spring.boot.version>
         <spring.framework.version>6.2.0</spring.framework.version>
         <lombok.version>1.18.34</lombok.version>
-        <jackson.version>2.17.2</jackson.version>
+        <jackson.version>2.18.2</jackson.version>
         <apache.commons.version>3.12.0</apache.commons.version>
         <juniper.version>5.10.1</juniper.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>

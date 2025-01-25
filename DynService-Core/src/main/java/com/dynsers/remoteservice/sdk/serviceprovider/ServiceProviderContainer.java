@@ -55,13 +55,13 @@ public class ServiceProviderContainer {
         Map<String, Map<String, Pair<RemoteServiceId, Object>>> services = getContainer().get(groupKey);
         Object res;
         if (null == services) {
-            throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+            throw new RemoteServiceServiceNotRegisterException("Service not found: " + RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
         }
         String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
         synchronized (LOCK) {
             Map<String, Pair<RemoteServiceId, Object>> uuidSers = services.get(serviceKey);
             if (null == uuidSers) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException("Service not found: " + RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             if (uuidSers.size() == 1) {
                 res = uuidSers.values().iterator().next().getValue();
