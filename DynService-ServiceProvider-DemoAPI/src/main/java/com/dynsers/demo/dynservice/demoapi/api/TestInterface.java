@@ -20,11 +20,13 @@ import com.dynsers.demo.dynservice.demoapi.data.ComplexParameter;
 
 public interface TestInterface {
 
-     String getSampleString();
+    String getSampleString();
 
-     String testIncomingMethod(String input);
+    String testIncomingMethod(String input);
 
-     String testMethodWithComplexParameter(ComplexParameter complexParameter);
+    String testMethodWithComplexParameter(ComplexParameter complexParameter);
 
-     String getSampleStringWithExcept() throws UnknowParameterException;
+    String getSampleStringWithExcept() throws UnknowParameterException;
+
+    ComplexParameter getPersonInfo(int id);
 }
