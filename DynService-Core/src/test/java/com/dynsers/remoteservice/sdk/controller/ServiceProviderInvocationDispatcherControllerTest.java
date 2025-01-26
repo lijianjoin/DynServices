@@ -3,6 +3,7 @@ package com.dynsers.remoteservice.sdk.controller;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.data.RemoteServiceMethodRequest;
 import com.dynsers.remoteservice.data.RemoteServiceMethodResponse;
+import com.dynsers.remoteservice.enums.RequestSource;
 import com.dynsers.remoteservice.exceptions.RemoteServiceInvocationException;
 import com.dynsers.remoteservice.exceptions.RemoteServiceRequestErrorException;
 import com.dynsers.remoteservice.exceptions.RemoteServiceServiceNotRegisterException;
@@ -45,6 +46,17 @@ class ServiceProviderInvocationDispatcherControllerTest {
 
     private AutoCloseable autocloseable;
 
+    private static RemoteServiceMethodRequest createRemoteServiceMethodRequest() {
+        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
+        request.setServiceId("com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver");
+        request.setMethod("getPropertyValue");
+        Serializable[] parameterValues = new Serializable[] {"remoteService.serviceProvider.groupId"};
+        Class<?>[] parameterTypes = new Class<?>[] {String.class};
+        request.setParameterSerializableValues(parameterValues);
+        request.setParameterTypes(parameterTypes);
+        return request;
+    }
+
     @BeforeEach
     void setUp() {
         autocloseable = MockitoAnnotations.openMocks(this);
@@ -73,12 +85,14 @@ class ServiceProviderInvocationDispatcherControllerTest {
         when(ServiceProviderContainer.getServiceProvider(any(RemoteServiceId.class)))
                 .thenReturn(serviceProvider);
 
+        request.setRequestSource(RequestSource.RMI_JAVA);
+
         ResponseEntity<String> response = controller.invokeServiceProvider(request);
 
         ObjectMapper om = new ObjectMapper();
         RemoteServiceMethodResponse responseObj = om.readValue(response.getBody(), RemoteServiceMethodResponse.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.valueOf(200), response.getStatusCode());
         assertNotNull(responseObj);
         assertEquals("remoteService.serviceProvider.groupId", responseObj.getResult());
     }
@@ -89,7 +103,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
 
         ResponseEntity<String> response = controller.invokeServiceProvider(request);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.valueOf(503), response.getStatusCode());
     }
 
     @Test
@@ -102,7 +116,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
 
         ResponseEntity<String> response = controller.invokeServiceProvider(request);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.valueOf(503), response.getStatusCode());
     }
 
     @Test
@@ -117,13 +131,14 @@ class ServiceProviderInvocationDispatcherControllerTest {
         staticServiceContainer
                 .when(() -> ServiceProviderContainer.getServiceProvider(any(RemoteServiceId.class)))
                 .thenThrow(new RemoteServiceServiceNotRegisterException("Service not registered"));
+        request.setRequestSource(RequestSource.RMI_JAVA);
 
         ResponseEntity<String> response = controller.invokeServiceProvider(request);
 
         ObjectMapper om = new ObjectMapper();
         RemoteServiceMethodResponse responseObj = om.readValue(response.getBody(), RemoteServiceMethodResponse.class);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.valueOf(503), response.getStatusCode());
         assertNotNull(responseObj);
         assertInstanceOf(RemoteServiceInvocationException.class, responseObj.getException());
     }
@@ -136,7 +151,8 @@ class ServiceProviderInvocationDispatcherControllerTest {
         Class<?> serviceProviderClass =
                 Class.forName("com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver");
 
-        Method method = ReflectionTestUtils.invokeMethod(controller, "getMethod", request, serviceProviderClass);
+        Method method =
+                ReflectionTestUtils.invokeMethod(controller, "getMethodForJAVARMI", request, serviceProviderClass);
 
         assertNotNull(method);
         assertEquals("getPropertyValue", method.getName());
@@ -146,7 +162,7 @@ class ServiceProviderInvocationDispatcherControllerTest {
     void getMethod_ForJAVARMI_withNullRequest_throwsRequestErrorException() {
         RemoteServiceRequestErrorException exception = assertThrows(
                 RemoteServiceRequestErrorException.class,
-                () -> ReflectionTestUtils.invokeMethod(controller, "getMethod", null, Object.class));
+                () -> ReflectionTestUtils.invokeMethod(controller, "getMethodForJAVARMI", null, Object.class));
 
         assertEquals("Error: request is null", exception.getMessage());
     }
@@ -158,10 +174,11 @@ class ServiceProviderInvocationDispatcherControllerTest {
 
         RemoteServiceRequestErrorException exception = assertThrows(
                 RemoteServiceRequestErrorException.class,
-                () -> ReflectionTestUtils.invokeMethod(controller, "getMethod", request, Object.class));
+                () -> ReflectionTestUtils.invokeMethod(controller, "getMethodForJAVARMI", request, Object.class));
 
         assertEquals("Error: Method name is empty", exception.getMessage());
     }
+
     //
     @Test
     void getMethod_withNoSuchMethod_ForJAVARMI_throwsRequestErrorException() throws ClassNotFoundException {
@@ -173,10 +190,12 @@ class ServiceProviderInvocationDispatcherControllerTest {
 
         RemoteServiceRequestErrorException exception = assertThrows(
                 RemoteServiceRequestErrorException.class,
-                () -> ReflectionTestUtils.invokeMethod(controller, "getMethod", request, serviceProviderClass));
+                () -> ReflectionTestUtils.invokeMethod(
+                        controller, "getMethodForJAVARMI", request, serviceProviderClass));
 
         assertTrue(exception.getMessage().contains("nonExistentMethod with parameters: class java.lang.String"));
     }
+
     //
     @Test
     void getMethod_withReserveMethod_ForJAVARMI_returnsNull() throws Exception {
@@ -190,19 +209,9 @@ class ServiceProviderInvocationDispatcherControllerTest {
                 .when(() -> ServiceProviderReserveMethods.isReserveMethod("reserveMethod"))
                 .thenReturn(true);
 
-        Method method = ReflectionTestUtils.invokeMethod(controller, "getMethod", request, serviceProviderClass);
+        Method method =
+                ReflectionTestUtils.invokeMethod(controller, "getMethodForJAVARMI", request, serviceProviderClass);
 
         assertNull(method);
-    }
-
-    private static RemoteServiceMethodRequest createRemoteServiceMethodRequest() {
-        RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
-        request.setServiceId("com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver");
-        request.setMethod("getPropertyValue");
-        Serializable[] parameterValues = new Serializable[] {"remoteService.serviceProvider.groupId"};
-        Class<?>[] parameterTypes = new Class<?>[] {String.class};
-        request.setParameterSerializableValues(parameterValues);
-        request.setParameterTypes(parameterTypes);
-        return request;
     }
 }
