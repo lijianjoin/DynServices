@@ -6,7 +6,7 @@ logging:
   level:
     root: debug
     com.dynsers: debug
-
+ 
 remoteService:
   serviceProvider:
     protocol: http
