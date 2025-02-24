@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "dynservice_provider", schema = "service_register")
+@Table(name = "dynservice_provider", schema = "dyn_service_register")
 @Accessors(chain = true)
 public class RemoteServiceProviderEntity {
 

@@ -4,9 +4,9 @@ spring:
 
 logging:
   level:
-    root: info
+    root: debug
     com.dynsers: debug
-
+ 
 remoteService:
   serviceProvider:
     protocol: http

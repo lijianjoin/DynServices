@@ -14,14 +14,14 @@ class TestRequestParameterValueSerializer {
         RemoteServiceMethodRequest request = new RemoteServiceMethodRequest();
         request.setMethod("test");
         Object[] objs = new Object[0];
-        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
+        request.setParameterSerializableValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request);
         System.out.println(jsString);
         RemoteServiceMethodRequest rs =
                 mapper.readerFor(RemoteServiceMethodRequest.class).readValue(jsString);
         assertEquals("test", rs.getMethod());
-        assertEquals(0, rs.getParameterValues().length);
+        assertEquals(0, rs.getParameterSerializableValues().length);
     }
 
     @Test
@@ -45,17 +45,17 @@ class TestRequestParameterValueSerializer {
         objs[0] = 5;
         objs[1] = "2";
         objs[2] = Double.valueOf("2.5");
-        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
+        request.setParameterSerializableValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request);
         System.out.println(jsString);
 
         RemoteServiceMethodRequest rs =
                 mapper.readerFor(RemoteServiceMethodRequest.class).readValue(jsString);
-        assertEquals(3, rs.getParameterValues().length);
-        assertEquals(5, rs.getParameterValues()[0]);
-        assertEquals("2", rs.getParameterValues()[1]);
-        assertEquals(2.5, rs.getParameterValues()[2]);
+        assertEquals(3, rs.getParameterSerializableValues().length);
+        assertEquals(5, rs.getParameterSerializableValues()[0]);
+        assertEquals("2", rs.getParameterSerializableValues()[1]);
+        assertEquals(2.5, rs.getParameterSerializableValues()[2]);
     }
 
     @Test
@@ -67,16 +67,16 @@ class TestRequestParameterValueSerializer {
         objs[0] = 5;
         objs[1] = "2";
         objs[2] = Double.valueOf("2.5");
-        request.setParameterValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
+        request.setParameterSerializableValues(SerializableConverterUtils.convertObjectArrayToSerializableArray(objs));
         ObjectMapper mapper = new ObjectMapper();
         String jsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request);
         System.out.println(jsString);
 
         RemoteServiceMethodRequest rs =
                 mapper.readerFor(RemoteServiceMethodRequest.class).readValue(jsString);
-        assertEquals(3, rs.getParameterValues().length);
-        assertEquals(5, rs.getParameterValues()[0]);
-        assertEquals("2", rs.getParameterValues()[1]);
-        assertEquals(2.5, rs.getParameterValues()[2]);
+        assertEquals(3, rs.getParameterSerializableValues().length);
+        assertEquals(5, rs.getParameterSerializableValues()[0]);
+        assertEquals("2", rs.getParameterSerializableValues()[1]);
+        assertEquals(2.5, rs.getParameterSerializableValues()[2]);
     }
 }

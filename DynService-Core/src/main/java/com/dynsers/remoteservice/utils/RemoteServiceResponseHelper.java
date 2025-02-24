@@ -16,8 +16,10 @@
 
 package com.dynsers.remoteservice.utils;
 
+import com.dynsers.remoteservice.enums.RequestSource;
 import com.dynsers.remoteservice.exceptions.RemoteServiceException;
 import com.dynsers.remoteservice.data.RemoteServiceMethodResponse;
+import com.dynsers.remoteservice.exceptions.RemoteServiceRequestErrorException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
@@ -25,18 +27,33 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.io.Serializable;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RemoteServiceResponseHelper {
 
     public static ResponseEntity<String> createResponseEntityWithException(
-            Object result, RemoteServiceException remoteServiceException, HttpStatus status)
+            Object result, RequestSource source, RemoteServiceException remoteServiceException, HttpStatus status)
             throws JsonProcessingException {
+        var json = "";
         var resp = new RemoteServiceMethodResponse();
-        resp.setException(remoteServiceException);
-        resp.setResult(SerializableConverterUtils.convertObjectToSerializable(result));
-        resp.setStatus(status.value());
-        resp.setExceptionType(remoteServiceException.getClass());
-        var json = new ObjectMapper().writeValueAsString(resp);
+        ObjectMapper mapper = new ObjectMapper();
+        switch (source) {
+            case RequestSource.RMI_JAVA -> {
+
+                resp.setException(remoteServiceException);
+                Serializable ser = switch (source) {
+                    case RequestSource.RMI_JAVA -> SerializableConverterUtils.convertObjectToSerializable(result);
+                    case RequestSource.REST_WEB -> mapper.writeValueAsString(result);
+                    default -> throw new RemoteServiceRequestErrorException("Error: Request source is not supported");
+                };
+                resp.setResult(ser);
+                resp.setStatus(status.value());
+                resp.setExceptionType(remoteServiceException.getClass());
+                json = mapper.writeValueAsString(resp);
+            }
+            case REST_WEB -> json = mapper.writeValueAsString(remoteServiceException.getLocalizedMessage());
+        }
         return new ResponseEntity<>(json, status);
     }
 }
