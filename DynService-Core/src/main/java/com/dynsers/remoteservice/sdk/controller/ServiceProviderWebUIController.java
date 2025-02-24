@@ -1,5 +1,5 @@
 /*
- *  Copyright "2024", Jian Li
+ *  Copyright "2025", Jian Li
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,11 +14,19 @@
  *  limitations under the License.
  */
 
-package com.dynsers.remoteservice.exceptions;
+package com.dynsers.remoteservice.sdk.controller;
 
-public class RemoteServiceRequestErrorException extends RemoteServiceException {
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-    public RemoteServiceRequestErrorException(String msg) {
-        super(msg);
+@RestController
+@RequestMapping("/${remoteService.serviceProvider.context-path}/api/")
+@Slf4j
+public class ServiceProviderWebUIController {
+
+    @RequestMapping("/")
+    public String invokeServiceProvider() {
+        return "<html><header>This is a demo page</header></html>";
     }
 }

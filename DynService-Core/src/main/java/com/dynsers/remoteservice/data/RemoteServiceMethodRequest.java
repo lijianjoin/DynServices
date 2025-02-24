@@ -17,12 +17,14 @@
 
 package com.dynsers.remoteservice.data;
 
+import com.dynsers.remoteservice.enums.RequestSource;
 import com.dynsers.remoteservice.utils.RemoteServiceRequestParameterTypeDeserializer;
 import com.dynsers.remoteservice.utils.RemoteServiceRequestParameterTypeSerializer;
 import com.dynsers.remoteservice.utils.RemoteServiceRequestParameterValueDeserializer;
 import com.dynsers.remoteservice.utils.RemoteServiceRequestParameterValueSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,14 +44,23 @@ public class RemoteServiceMethodRequest implements Serializable {
 
     private String serviceName;
 
+    @Nullable
     private String uuid;
+
+    // Default value is REST_WEB, which means the request is from RESTful web service
+    @Nullable
+    private RequestSource requestSource = RequestSource.REST_WEB;
 
     @JsonSerialize(using = RemoteServiceRequestParameterTypeSerializer.class)
     @JsonDeserialize(using = RemoteServiceRequestParameterTypeDeserializer.class)
+    @Nullable
     private Class<?>[] parameterTypes;
 
     @JsonSerialize(using = RemoteServiceRequestParameterValueSerializer.class)
     @JsonDeserialize(using = RemoteServiceRequestParameterValueDeserializer.class)
-    private Serializable[] parameterValues;
+    @Nullable
+    private Serializable[] parameterSerializableValues;
 
+    @Nullable
+    private Object[] parameterRawValues;
 }
