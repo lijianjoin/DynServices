@@ -1,5 +1,5 @@
 /*
- *  Copyright "2024", Jian Li
+ *  Copyright "2025", Jian Li
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,11 +14,13 @@
  *  limitations under the License.
  */
 
-package com.dynsers.remoteservice.exceptions;
+package com.dynsers.demo.dynservice.demoapi.data;
 
-public class RemoteServiceRequestErrorException extends RemoteServiceException {
-
-    public RemoteServiceRequestErrorException(String msg) {
-        super(msg);
-    }
+public record ComplexParameter(
+        String name,
+        int age,
+        Address address,
+        String email,
+        String phone
+) {
 }

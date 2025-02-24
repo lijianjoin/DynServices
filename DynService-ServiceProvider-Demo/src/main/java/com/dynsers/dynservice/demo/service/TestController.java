@@ -1,5 +1,5 @@
 /*
- *  Copyright "2024", Jian Li
+ *  Copyright "2025", Jian Li
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,11 +14,16 @@
  *  limitations under the License.
  */
 
-package com.dynsers.remoteservice.exceptions;
+package com.dynsers.dynservice.demo.service;
 
-public class RemoteServiceRequestErrorException extends RemoteServiceException {
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-    public RemoteServiceRequestErrorException(String msg) {
-        super(msg);
+@Controller
+public class TestController {
+
+    @GetMapping("/")
+    public String index() {
+        return "test";
     }
 }

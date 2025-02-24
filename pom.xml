@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>DynService-Core-Api</module>
         <module>DynService-Core</module>
         <module>DynService-Server</module>
         <module>DynService-ServiceProvider-DemoAPI</module>
@@ -36,6 +35,8 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <liquibase.version>4.25.1</liquibase.version>
         <postgresql.version>42.7.4</postgresql.version>
+        <tomcat.embed.jasper.version>10.1.18</tomcat.embed.jasper.version>
+        <jstl.version>1.2</jstl.version>
     </properties>
 
     <dependencyManagement>
@@ -74,6 +75,24 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
                 <version>${spring.framework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>${tomcat.embed.jasper.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring.boot.version}</version>
             </dependency>
 
             <dependency>

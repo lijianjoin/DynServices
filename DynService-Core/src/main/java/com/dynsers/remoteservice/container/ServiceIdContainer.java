@@ -1,4 +1,3 @@
-
 /*
  *  Copyright "2024", Jian Li
  *
@@ -120,7 +119,8 @@ public class ServiceIdContainer {
         synchronized (uuidServices) {
             RemoteServiceId service = uuidServices.getServiceId(serviceId.getUuid());
             if (null == service) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             uuidServices.putServiceId(serviceId.getUuid(), serviceId);
         }
@@ -133,7 +133,8 @@ public class ServiceIdContainer {
         synchronized (container) {
             resourceServices = container.getResourceServices(groupKey);
             if (null == resourceServices) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
@@ -141,7 +142,8 @@ public class ServiceIdContainer {
         synchronized (resourceServices) {
             uuidServices = resourceServices.getServices(serviceKey);
             if (null == uuidServices) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         synchronized (uuidServices) {
@@ -158,7 +160,8 @@ public class ServiceIdContainer {
         return res;
     }
 
-    public List<RemoteServiceId> getServiceIdsInOneGroupResource(RemoteServiceId serviceId) throws RemoteServiceServiceNotRegisterException {
+    public List<RemoteServiceId> getServiceIdsInOneGroupResource(RemoteServiceId serviceId)
+            throws RemoteServiceServiceNotRegisterException {
         List<RemoteServiceId> resList = new LinkedList<>();
 
         String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
@@ -166,7 +169,8 @@ public class ServiceIdContainer {
         synchronized (container) {
             resourceServices = container.getResourceServices(groupKey);
             if (null == resourceServices) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         synchronized (resourceServices) {
@@ -175,7 +179,8 @@ public class ServiceIdContainer {
         return resList;
     }
 
-    public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId) throws RemoteServiceServiceNotRegisterException {
+    public List<RemoteServiceId> getServiceIdsInOneGroupResourceService(RemoteServiceId serviceId)
+            throws RemoteServiceServiceNotRegisterException {
         List<RemoteServiceId> resList = new LinkedList<>();
 
         String groupKey = RemoteServiceServiceIdUtils.getGroupResourceKey(serviceId);
@@ -183,7 +188,8 @@ public class ServiceIdContainer {
         synchronized (container) {
             resourceServices = container.getResourceServices(groupKey);
             if (null == resourceServices) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
         }
         String serviceKey = RemoteServiceServiceIdUtils.getServiceKey(serviceId);
@@ -191,7 +197,8 @@ public class ServiceIdContainer {
         synchronized (resourceServices) {
             uuidServices = resourceServices.getServices(serviceKey);
             if (null == uuidServices) {
-                throw new RemoteServiceServiceNotRegisterException(RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
+                throw new RemoteServiceServiceNotRegisterException(
+                        RemoteServiceServiceIdUtils.getServiceIdAsPlainString(serviceId));
             }
             resList.addAll(uuidServices.getAllServiceId());
         }

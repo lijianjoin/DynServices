@@ -17,9 +17,9 @@
 package com.dynsers.remoteservice.sdk.serviceprovider;
 
 import com.dynsers.remoteservice.data.RemoteServiceId;
+import com.dynsers.remoteservice.exceptions.RemoteServiceServiceAlreadyRegisterException;
 import com.dynsers.remoteservice.exceptions.RemoteServiceServiceNotRegisterException;
 import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
-import com.dynsers.remoteservice.exceptions.RemoteServiceServiceAlreadyRegisterException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,11 +36,10 @@ import java.util.List;
 @Service
 public class ServiceProviderRegistrantService {
 
-    @Setter
-    private RemoteServiceRegistry remoteServiceRegister;
-
     @Getter
     private final List<ServiceIdRegisterStatus> serviceIdRegisterStatusList = new LinkedList<>();
+    @Setter
+    private RemoteServiceRegistry remoteServiceRegister;
 
     public void addServiceId(RemoteServiceId serviceId) {
         synchronized (serviceIdRegisterStatusList) {
@@ -53,7 +52,7 @@ public class ServiceProviderRegistrantService {
         synchronized (serviceIdRegisterStatusList) {
             for (ServiceIdRegisterStatus serviceIdRegisterStatus : serviceIdRegisterStatusList) {
                 boolean status = checkRemoteServiceIdRegisterStatus(serviceIdRegisterStatus);
-                log.info("Service is registered: {}, {}", serviceIdRegisterStatus.getServiceId(), status);
+                log.debug("Service is registered: {}, {}", serviceIdRegisterStatus.getServiceId(), status);
                 serviceIdRegisterStatus.setRegistered(status);
                 if (!serviceIdRegisterStatus.isRegistered()) {
                     try {

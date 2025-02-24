@@ -16,6 +16,8 @@ limitations under the License.
 */
 package com.dynsers.demo.dynservice.demoapi.api;
 
+import com.dynsers.demo.dynservice.demoapi.data.ComplexParameter;
+
 import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.DynService.core.api.enums.RemoteServiceInitialization;
 
@@ -35,5 +37,11 @@ public interface TestInterface {
 
     String getSampleString();
 
+    String testIncomingMethod(String input);
+
+    String testMethodWithComplexParameter(ComplexParameter complexParameter);
+
     String getSampleStringWithExcept() throws UnknowParameterException;
+
+    ComplexParameter getPersonInfo(int id);
 }
