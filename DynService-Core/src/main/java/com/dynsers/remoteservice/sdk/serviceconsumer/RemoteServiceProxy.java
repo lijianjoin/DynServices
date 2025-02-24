@@ -16,7 +16,7 @@
 
 package com.dynsers.remoteservice.sdk.serviceconsumer;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.utils.RemoteServiceServiceIdUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -31,20 +31,15 @@ import java.util.stream.Stream;
 @Slf4j
 public class RemoteServiceProxy {
 
-    private RemoteServiceProxy() {
-    }
+    private RemoteServiceProxy() {}
 
     @SuppressWarnings("unchecked")
     public static <T> T simpleProxy(Class<? extends T> iface, InvocationHandler handler, Class<?>... otherIfaces) {
-        Class<?>[] allInterfaces = Stream.concat(
-                        Stream.of(iface),
-                        Stream.of(otherIfaces))
+        Class<?>[] allInterfaces = Stream.concat(Stream.of(iface), Stream.of(otherIfaces))
                 .distinct()
                 .toArray(Class<?>[]::new);
 
-        return (T) Proxy.newProxyInstance(iface.getClassLoader(),
-                allInterfaces,
-                handler);
+        return (T) Proxy.newProxyInstance(iface.getClassLoader(), allInterfaces, handler);
     }
 
     public static <T> T passThroughProxy(Class<? extends T> iface, RemoteServiceId serviceId) {

@@ -16,7 +16,7 @@
 
 package com.dynsers.remoteservice.sdk.serviceprovider;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.remoteservice.annotations.ServiceProvider;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.enums.ServiceProviderTypes;
@@ -50,8 +50,10 @@ public class ServiceProviderManager {
 
     private final ServiceProviderRegistrantService registrantService;
     private final RemoteServiceProviderProperties providerProperties;
+
     @Value("${server.port}")
     private int serverPort;
+
     @RemoteService(
             groupId = "${remoteService.server.groupId}",
             resourceId = "${remoteService.server.resourceId}",
@@ -61,7 +63,6 @@ public class ServiceProviderManager {
             serviceLocation = "${remoteService.server.serviceLocation}",
             url = "${remoteService.server.url}")
     private RemoteServiceRegistry remoteServiceRegister;
-
 
     public ServiceProviderManager(
             ServiceProviderRegistrantService registrantService,

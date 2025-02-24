@@ -1,5 +1,5 @@
 /*
- *  Copyright "2024", Jian Li
+ *  Copyright "2025", Jian Li
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
  *  limitations under the License.
  */
 
-package com.dynsers.remoteservice.annotations;
+package com.dynsers.DynService.core.api.annotation;
 
-import com.dynsers.remoteservice.enums.RemoteServiceInitialization;
+import com.dynsers.DynService.core.api.enums.RemoteServiceInitialization;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD})
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RemoteService {
     String groupId() default "";
@@ -43,6 +43,9 @@ public @interface RemoteService {
     String uuid() default "";
 
     String url() default "";
+
+    // dev, qa, prod
+    String environment() default "dev";
 
     RemoteServiceInitialization initialization() default RemoteServiceInitialization.SPRINGBEANINIT;
 }

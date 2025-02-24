@@ -16,22 +16,22 @@
 
 package com.dynsers.remoteservice.sdk.serviceconsumer;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.remoteservice.data.RemoteServiceId;
-import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
 import com.dynsers.remoteservice.enums.ServiceProviderLocation;
 import com.dynsers.remoteservice.exceptions.RemoteServiceInvocationException;
+import com.dynsers.remoteservice.interfaces.RemoteServiceRegistry;
 import com.dynsers.remoteservice.utils.RemoteServiceServiceIdUtils;
 import io.micrometer.common.util.StringUtils;
 
 import java.lang.reflect.Field;
 
-
 public class RemoteServiceManager {
 
     private static RemoteServiceManager instance;
 
-    @RemoteService(groupId = "${remoteService.server.groupId}",
+    @RemoteService(
+            groupId = "${remoteService.server.groupId}",
             resourceId = "${remoteService.server.resourceId}",
             resourceVersion = "${remoteService.server.resourceVersion}",
             serviceVersion = "${remoteService.server.serviceVersion}",
@@ -76,7 +76,8 @@ public class RemoteServiceManager {
         }
     }
 
-    public void configService(Object owner, String paramName, ServiceProviderLocation location) throws NoSuchFieldException {
+    public void configService(Object owner, String paramName, ServiceProviderLocation location)
+            throws NoSuchFieldException {
         var field = owner.getClass().getDeclaredField(paramName);
         if (field.isAnnotationPresent(RemoteService.class)) {
             RemoteService remoteService = field.getAnnotation(RemoteService.class);

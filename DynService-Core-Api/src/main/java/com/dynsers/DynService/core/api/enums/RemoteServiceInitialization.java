@@ -1,6 +1,6 @@
 
 /*
- *  Copyright "2024", Jian Li
+ *  Copyright "2025", Jian Li
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  *  limitations under the License.
  */
 
-package com.dynsers.remoteservice.enums;
+package com.dynsers.DynService.core.api.enums;
 
 public enum RemoteServiceInitialization {
 
-    SPRINGBEANINIT, LAZYINIT;
+    SPRINGBEANINIT, LAZYINIT
 }

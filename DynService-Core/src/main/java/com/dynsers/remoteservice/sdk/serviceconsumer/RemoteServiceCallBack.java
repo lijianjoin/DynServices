@@ -16,9 +16,9 @@
 
 package com.dynsers.remoteservice.sdk.serviceconsumer;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
+import com.dynsers.DynService.core.api.enums.RemoteServiceInitialization;
 import com.dynsers.remoteservice.data.RemoteServiceId;
-import com.dynsers.remoteservice.enums.RemoteServiceInitialization;
 import com.dynsers.remoteservice.exceptions.RemoteServiceInjectionException;
 import com.dynsers.remoteservice.utils.RemoteServiceServiceIdUtils;
 import io.micrometer.common.util.StringUtils;

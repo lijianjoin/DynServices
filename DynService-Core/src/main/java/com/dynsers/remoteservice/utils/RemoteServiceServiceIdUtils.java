@@ -16,7 +16,7 @@
 
 package com.dynsers.remoteservice.utils;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver;
 

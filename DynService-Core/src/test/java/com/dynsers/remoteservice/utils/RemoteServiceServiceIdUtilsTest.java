@@ -1,6 +1,6 @@
 package com.dynsers.remoteservice.utils;
 
-import com.dynsers.remoteservice.annotations.RemoteService;
+import com.dynsers.DynService.core.api.annotation.RemoteService;
 import com.dynsers.remoteservice.data.RemoteServiceId;
 import com.dynsers.remoteservice.sdk.configuration.RemoteServicePropertyResolver;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +17,6 @@ class RemoteServiceServiceIdUtilsTest {
     private AutoCloseable closeable;
 
     private MockedStatic<RemoteServicePropertyResolver> staticRemoteServicePropertyResolver;
-
 
     @BeforeEach
     void setup() {
@@ -131,6 +130,4 @@ class RemoteServiceServiceIdUtilsTest {
 
         assertEquals("serviceId_serviceName_serviceVersion_serviceLocation", result);
     }
-
-
 }

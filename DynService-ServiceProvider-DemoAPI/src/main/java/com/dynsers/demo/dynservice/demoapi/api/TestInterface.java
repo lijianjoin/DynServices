@@ -16,9 +16,24 @@ limitations under the License.
 */
 package com.dynsers.demo.dynservice.demoapi.api;
 
+import com.dynsers.DynService.core.api.annotation.RemoteService;
+import com.dynsers.DynService.core.api.enums.RemoteServiceInitialization;
+
+@RemoteService(
+        groupId = "com.dynsers.demo",
+        resourceId = "dynservice",
+        resourceVersion = "1.0.0",
+        serviceId = "test",
+        serviceVersion = "1.0.0",
+        serviceName = "test",
+        serviceLocation = "http://localhost:8080",
+        uuid = "test-uuid",
+        url = "/test",
+        environment = "dev",
+        initialization = RemoteServiceInitialization.SPRINGBEANINIT)
 public interface TestInterface {
 
-    public String getSampleString();
+    String getSampleString();
 
-    public String getSampleStringWithExcept() throws UnknowParameterException;
+    String getSampleStringWithExcept() throws UnknowParameterException;
 }
