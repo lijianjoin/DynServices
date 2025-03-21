@@ -10,12 +10,12 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>DynService-Core-Api</module>
         <module>DynService-Core</module>
         <module>DynService-Server</module>
         <module>DynService-ServiceProvider-DemoAPI</module>
         <module>DynService-ServiceProvider-Demo</module>
         <module>DynService-Client-Example</module>
-
         <module>DynService-Client-Spring-Example</module>
 
     </modules>
@@ -41,7 +41,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>com.dynsers.DynService</groupId>
                 <artifactId>DynService-Core-Api</artifactId>
